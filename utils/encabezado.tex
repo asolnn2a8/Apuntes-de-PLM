@@ -1,9 +1,13 @@
 
 % notas al margen
-\ifnum \notasalmargen=1
+% \ifnum \notasalmargen=1
+% \newgeometry{left=1.5cm,top=1.5cm,right=1.5cm, bottom=1.5cm,letterpaper, includeheadfoot, outer=5cm, heightrounded, marginparwidth=4cm, marginparsep=-2.5cm}
+% \fi
+\NAM{
 \newgeometry{left=1.5cm,top=1.5cm,right=1.5cm, bottom=1.5cm,letterpaper, includeheadfoot, outer=5cm, heightrounded, marginparwidth=4cm, marginparsep=-2.5cm}
 \savegeometry{notas-al-margen}
-\fi
+}[]
+
 %fin de notas al margen
 
 \fancyhead[L]{Facultad de Ciencias Físicas y Matemáticas}
@@ -24,6 +28,11 @@
 \else
 \includegraphics[scale=0.15]{fcfm}
 \fi
+% \NAM{
+% \hspace*{6cm}\includegraphics[scale=0.15]{fcfm}
+% }{
+% \includegraphics[scale=0.15]{fcfm}
+% }
 \end{flushright}
 \end{minipage}
 \bigskip
