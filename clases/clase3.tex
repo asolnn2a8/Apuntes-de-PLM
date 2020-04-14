@@ -1,90 +1,4 @@
 %!TEX root = ../notas_de_clase.tex
-\documentclass[10pt]{article}
-\usepackage[utf8]{inputenc}
-\usepackage[activeacute,spanish,es-nodecimaldot]{babel}
-\usepackage[left=1.5cm,top=1.5cm,right=1.5cm, bottom=1.5cm,letterpaper, includeheadfoot]{geometry}
-\usepackage[parfill]{parskip}
-\usepackage{amssymb, amsmath, amsthm,mathtools}
-\usepackage[T1]{fontenc}
-\usepackage[variablett]{lmodern}
-\usepackage{enumerate}
-\usepackage[spanish,es-nodecimaldot]{babel}
-\usepackage{paralist} %util para listas compactas
-\usepackage{listings,xspace}
-\newcommand*\plus{+{}}
-\newcommand*\boxSizeOfMax[1]{\makebox[\widthof{Max}][c]{#1}}
-\lstset{basicstyle=\ttfamily}
-\usepackage[scaled]{beramono}
-\theoremstyle{definition}
-\newtheorem{ejer}{Ejercicio}
-\newcommand{\Julia}{\textsc{ampl}\xspace}
-\newcommand{\CPLEX}{\textsc{cplex}\xspace}
-\newcommand{\GUROBI}{\textsc{gurobi}\xspace}
-\newcommand{\JULIA}{\textsc{julia}\xspace}
-\newcommand{\MINOS}{\textsc{minos}\xspace}
-\newcommand{\CBC}{\textsc{cbc}\xspace}
-\usepackage[usenames,dvipsnames]{xcolor}
-\usepackage[charsperline=106]{jlcode}
-\usepackage{hyperref}
-
-
-
-\usepackage{fancyhdr}
-\pagestyle{fancy}
-\fancypagestyle{plain}{%
-\fancyhf{}
-\lhead{\footnotesize\itshape\bfseries\rightmark}
-\rhead{\footnotesize\itshape\bfseries\leftmark}
-}
-\newcommand{\exe}[1]{{\bfseries\slshape\ttfamily#1}}
-\lstset{moredelim=[is][\bfseries\slshape]{[*}{*]}}
-\usepackage{tikz,forest}
-\usetikzlibrary{arrows}
-\usetikzlibrary{babel}
-\usetikzlibrary{arrows.meta}
-\useforestlibrary{edges}
-\newcommand{\Hilight}{\color{cyan}\rule[-4pt]{0.65\linewidth}{14pt}}
-
-
-
-\usepackage{fancyhdr}
-\pagestyle{fancy}
-\fancypagestyle{plain}{%
-\fancyhf{}
-\lhead{\footnotesize\itshape\bfseries\rightmark}
-\rhead{\footnotesize\itshape\bfseries\leftmark}
-}
-
-
-% macros
-
-\newcommand{\calI}{\mathcal I}
-\newcommand{\Proy}{\mathrm Proy}
-\newcommand{\calQ}{\mathcal Q}
-\newcommand{\calT}{\mathcal T}
-\newcommand{\calL}{\mathcal L}
-\newcommand{\ALG}{\mathrm{ALG}}
-\newcommand{\alg}{\mathrm{alg}}
-\newcommand{\OPT}{\mathrm{OPT}}
-\newcommand{\opt}{\mathrm{opt}}
-\newcommand{\conv}{\mathrm{conv}}
-\newcommand{\QQ}{\mathbb Q}
-\newcommand{\RR}{\mathbb R}
-\newcommand{\NN}{\mathbb N}
-\newcommand{\ZZ}{\mathbb Z}
-\newcommand{\CC}{\mathbb C}
-\newcommand{\BB}{\mathbb B}
-
-%Teoremas, Lemas, etc.
-\theoremstyle{plain}
-\newtheorem{teo}{Teorema}
-\newtheorem{lem}{Lema}
-\newtheorem{prop}{Proposición}
-\newtheorem{cor}{Corolario}
-
-\theoremstyle{definition}
-\newtheorem{defi}{Definición}
-% fin macros
 
 %%%%% NOMBRE ESCRIBAS Y FECHA
 \newcommand{\sca}{Escriba Uno}
@@ -94,27 +8,6 @@
 \newcommand{\fecha}{27 de Marzo 2020}
 
 %%%%%%%%%%%%%%%%%%
-
-%Macros para este documento
-
-\usepackage[noend]{algpseudocode}
-\usepackage{algorithm,algorithmicx}
-\def\NoNumber#1{{\def\alglinenumber##1{}\State #1}\addtocounterhh{ALG@line}{-1}}
-\newlength{\algofontsize}
-\setlength{\algofontsize}{6pt}
-
-\definecolor{light_gray}{rgb}{0.7,0.7,0.7}
-\makeatletter
-\newcommand\currentStyle@lstparam{}
-\lst@AddToHook{Output}{\global\let\currentStyle@lstparam\lst@thestyle}
-\lst@AddToHook{OutputOther}{\global\let\currentStyle@lstparam\lst@thestyle}
-\makeatother
-
-\makeatletter
-% Usage: \highlightcode{color}{content}
-\newcommand{\highlightcode}[2]{\currentStyle@lstparam \textcolor{#1}{#2}}
-\newcommand{\bl}[1]{\highlightcode{blue}{#1}}
-\makeatother
 
 \begin{document}
 \shorthandoff{>}\shorthandoff{<}

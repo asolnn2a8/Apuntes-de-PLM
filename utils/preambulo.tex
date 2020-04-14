@@ -1,9 +1,14 @@
+
+% =======================
 \usepackage[utf8]{inputenc}
 \usepackage[activeacute,spanish,es-nodecimaldot]{babel}
 \usepackage[left=1.5cm,top=1.5cm,right=1.5cm, bottom=1.5cm,letterpaper, includeheadfoot]{geometry}
 \usepackage[parfill]{parskip}
 
-\usepackage{amssymb, amsmath, amsthm}
+\usepackage{amssymb, amsmath, amsthm, mathtools}
+\usepackage[T1]{fontenc}
+\usepackage[variablett]{lmodern}
+\usepackage{enumerate}
 \usepackage{graphicx}
 \graphicspath{ {img/} } % path de las imagenes
 \usepackage{lmodern,url}
@@ -14,5 +19,21 @@
 \usetikzlibrary{babel}
 \usepackage{marginnote} % paquete para notas al margren
 \renewcommand*{\marginfont}{\color{red}\sffamily} % fuente de las notas al margen
+\usepackage{listings,xspace}
+\newcommand*\plus{+{}}
+\newcommand*\boxSizeOfMax[1]{\makebox[\widthof{Max}][c]{#1}}
+\lstset{basicstyle=\ttfamily}
+\usepackage[scaled]{beramono}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage[charsperline=106]{jlcode}
+\usepackage{hyperref}
+\lstset{moredelim=[is][\bfseries\slshape]{[*}{*]}}
+\usepackage{tikz,forest}
+\usetikzlibrary{arrows}
+\usetikzlibrary{babel}
+\usetikzlibrary{arrows.meta}
+\useforestlibrary{edges}
+\usepackage[noend]{algpseudocode}
+\usepackage{algorithm,algorithmicx}
 
 \usepackage{fancyhdr}

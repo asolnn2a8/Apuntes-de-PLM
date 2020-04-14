@@ -1,4 +1,14 @@
 % macros
+\newcommand{\calI}{\mathcal I}
+\newcommand{\Proy}{\mathrm Proy}
+\newcommand{\calQ}{\mathcal Q}
+\newcommand{\calT}{\mathcal T}
+\newcommand{\calL}{\mathcal L}
+\newcommand{\ALG}{\mathrm{ALG}}
+\newcommand{\alg}{\mathrm{alg}}
+\newcommand{\opt}{\mathrm{opt}}
+\newcommand{\conv}{\mathrm{conv}}
+\newcommand{\BB}{\mathbb B}
 \newcommand{\QQ}{\mathbb Q}
 \newcommand{\RR}{\mathbb R}
 \newcommand{\NN}{\mathbb N}
@@ -21,6 +31,16 @@
 \newtheorem{eje}{Ejemplo}
 \newtheorem{ejer}{Ejercicio}
 
+\newcommand{\Julia}{\textsc{ampl}\xspace}
+\newcommand{\CPLEX}{\textsc{cplex}\xspace}
+\newcommand{\GUROBI}{\textsc{gurobi}\xspace}
+\newcommand{\JULIA}{\textsc{julia}\xspace}
+\newcommand{\MINOS}{\textsc{minos}\xspace}
+\newcommand{\CBC}{\textsc{cbc}\xspace}
+
+\newcommand{\exe}[1]{{\bfseries\slshape\ttfamily#1}}
+\newcommand{\Hilight}{\color{cyan}\rule[-4pt]{0.65\linewidth}{14pt}}
+
 % Comando para notas al margen
 \def\NAM#1#2{
 \ifnum \notasalmargen=1
@@ -29,4 +49,23 @@
 #2
 \fi
 }
+
+% =========== Clase 3 ===============
+\def\NoNumber#1{{\def\alglinenumber##1{}\State #1}\addtocounterhh{ALG@line}{-1}}
+\newlength{\algofontsize}
+\setlength{\algofontsize}{6pt}
+
+\definecolor{light_gray}{rgb}{0.7,0.7,0.7}
+\makeatletter
+\newcommand\currentStyle@lstparam{}
+\lst@AddToHook{Output}{\global\let\currentStyle@lstparam\lst@thestyle}
+\lst@AddToHook{OutputOther}{\global\let\currentStyle@lstparam\lst@thestyle}
+\makeatother
+
+\makeatletter
+% Usage: \highlightcode{color}{content}
+\newcommand{\highlightcode}[2]{\currentStyle@lstparam \textcolor{#1}{#2}}
+\newcommand{\bl}[1]{\highlightcode{blue}{#1}}
+\makeatother
+% =========== Clase 3 ===============
 % fin macros
