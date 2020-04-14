@@ -1,0 +1,854 @@
+DFFDVNJDGZNVKHVHHBVVVVVVVVVVV YER4YTER\ref{alg:bnb}\begin{€T\ref{alg:bnb}\begin{T\ref{alg:bnb}6ER6RYREETYERWTEW\ref{alg:bnb}\begin{T6 UY#~¬4T~¬T #~¬¬~#TR6TTT \begin{GGGGSDGHDHSCYYXYSDXD\documentclass[10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[activeacute,spanish,es-nodecimaldot]{babel}
+\usepackage[left=1.5cm,top=1.5cm,right=1.5cm, bottom=1.5cm,letterpaper, includeheadfoot]{geometry}
+\usepackage[parfill]{parskip}
+\usepackage{amssymb, amsmath, amsthm,mathtools}
+\usepackage[T1]{fontenc}
+\usepackage[variablett]{lmodern}
+\usepackage{enumerate}
+\usepackage[spanish,es-nodecimaldot]{babel}
+\usepackage{paralist} %util para listas compactas
+\usepackage{listings,xspace}
+\newcommand*\plus{+{}}
+\newcommand*\boxSizeOfMax[1]{\makebox[\widthof{Max}][c]{#1}}
+\lstset{basicstyle=\ttfamily}
+\usepackage[scaled]{beramono}
+\theoremstyle{definition}
+\newtheorem{ejer}{Ejercicio}
+\newcommand{\Julia}{\textsc{ampl}\xspace}
+\newcommand{\CPLEX}{\textsc{cplex}\xspace}
+\newcommand{\GUROBI}{\textsc{gurobi}\xspace}
+\newcommand{\JULIA}{\textsc{julia}\xspace}
+\newcommand{\MINOS}{\textsc{minos}\xspace}
+\newcommand{\CBC}{\textsc{cbc}\xspace}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage[charsperline=106]{jlcode}
+\usepackage{hyperref}
+
+
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancypagestyle{plain}{%
+\fancyhf{}
+\lhead{\footnotesize\itshape\bfseries\rightmark}
+\rhead{\footnotesize\itshape\bfseries\leftmark}
+}
+\newcommand{\exe}[1]{{\bfseries\slshape\ttfamily#1}}
+\lstset{moredelim=[is][\bfseries\slshape]{[*}{*]}}
+\usepackage{tikz,forest}
+\usetikzlibrary{arrows}
+\usetikzlibrary{babel}
+\usetikzlibrary{arrows.meta}
+\useforestlibrary{edges}
+\newcommand{\Hilight}{\color{cyan}\rule[-4pt]{0.65\linewidth}{14pt}}
+
+
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancypagestyle{plain}{%
+\fancyhf{}
+\lhead{\footnotesize\itshape\bfseries\rightmark}
+\rhead{\footnotesize\itshape\bfseries\leftmark}
+}
+
+
+% macros
+
+\newcommand{\calI}{\mathcal I}
+\newcommand{\Proy}{\mathrm Proy}
+\newcommand{\calQ}{\mathcal Q}
+\newcommand{\calT}{\mathcal T}
+\newcommand{\calL}{\mathcal L}
+\newcommand{\ALG}{\mathrm{ALG}}
+\newcommand{\alg}{\mathrm{alg}}
+\newcommand{\OPT}{\mathrm{OPT}}
+\newcommand{\opt}{\mathrm{opt}}
+\newcommand{\conv}{\mathrm{conv}}
+\newcommand{\QQ}{\mathbb Q}
+\newcommand{\RR}{\mathbb R}
+\newcommand{\NN}{\mathbb N}
+\newcommand{\ZZ}{\mathbb Z}
+\newcommand{\CC}{\mathbb C}
+\newcommand{\BB}{\mathbb B}
+
+%Teoremas, Lemas, etc.
+\theoremstyle{plain}
+\newtheorem{teo}{Teorema}
+\newtheorem{lem}{Lema}
+\newtheorem{prop}{Proposición}
+\newtheorem{cor}{Corolario}
+
+\theoremstyle{definition}
+\newtheorem{defi}{Definición}
+% fin macros
+
+%%%%% NOMBRE ESCRIBAS Y FECHA
+\newcommand{\sca}{Escriba Uno}
+\newcommand{\scb}{Escriba Dos}
+\newcommand{\scc}{Escriba Tres}
+\newcommand{\catnum}{3} %numero de catedra
+\newcommand{\fecha}{27 de Marzo 2020}
+
+%%%%%%%%%%%%%%%%%%
+
+%Macros para este documento
+
+\usepackage[noend]{algpseudocode}
+\usepackage{algorithm,algorithmicx}
+\def\NoNumber#1{{\def\alglinenumber##1{}\State #1}\addtocounterhh{ALG@line}{-1}}
+\newlength{\algofontsize}
+\setlength{\algofontsize}{6pt}
+
+\definecolor{light_gray}{rgb}{0.7,0.7,0.7}
+\makeatletter
+\newcommand\currentStyle@lstparam{}
+\lst@AddToHook{Output}{\global\let\currentStyle@lstparam\lst@thestyle}
+\lst@AddToHook{OutputOther}{\global\let\currentStyle@lstparam\lst@thestyle}
+\makeatother
+
+\makeatletter
+% Usage: \highlightcode{color}{content}
+\newcommand{\highlightcode}[2]{\currentStyle@lstparam \textcolor{#1}{#2}}
+\newcommand{\bl}[1]{\highlightcode{blue}{#1}}
+\makeatother
+
+\begin{document}
+\shorthandoff{>}\shorthandoff{<}
+%Encabezado
+\fancyhead[L]{Facultad de Ciencias Físicas y Matemáticas}
+\fancyhead[R]{Universidad de Chile}
+\vspace*{-1.2 cm}
+\begin{minipage}{0.6\textwidth}
+\begin{flushleft}
+\hspace*{-0.5cm}\textbf{MA4702. Programación Lineal Mixta. 2018.}\\
+\hspace*{-0.5cm}\textbf{Profesor:} José Soto\\
+%\hspace*{-0.5cm}\textbf{Escriba(s):} \sca, \scb~y \scc.\\
+\hspace*{-0.5cm}\textbf{Fecha:} \fecha.
+\end{flushleft}
+\end{minipage}
+\begin{minipage}{0.36\textwidth}
+\begin{flushright}
+\includegraphics[scale=0.15]{fcfm}
+\end{flushright}
+\end{minipage}
+\bigskip
+%Fin encabezado
+
+\begin{center}
+\LARGE\textbf{Cátedra \catnum}
+\end{center}
+
+\section{Descripción de Branch and Bound}
+
+Uno de los métodos más usados para resolver PLM y otros problemas de optimización es \textbf{branch and bound (BnB)}. Se basa en la siguiente idea: 
+
+\begin{quote}
+Sea $\{S_1,\dots, S_k\}$ una partición del conjunto factible $S$ de un problema de optimización $z^*=\max \{c^Tx\colon x\in S\}$.
+    Si $z^*_i=\max\{c^Tx\colon x\in S_i\}$ entonces $z^*=\max_{i\in [k]}z^*_i.$
+\end{quote}
+
+    BnB consiste en particionar el conjunto factible $S$ del problema original en conjuntos más pequeños y resolver luego $\max c^Tx$ en cada subconjunto de manera recursiva. Si la recursión se pudiera llevar completamente, al final  enumeraríamos todos los puntos factibles del problema. Esta idea tiene dos problemas. Primero, si el dominio es infinito entonces esto no es posible. Segundo, incluso si el dominio es finito, esto podría ser extremadamente lento y no difiere en nada de simplemente de simple fuerza bruta. 
+
+    La idea es que BnB no explore todo el árbol de recursión sino que guarde cotas para los subproblemas que ya ha resuelto y, usando estas cotas determinar que no necesitamos resolver ciertos subproblemas. 
+    
+    En lo que sigue nos enfocaremos en PLM de la forma    
+$$\begin{aligned}
+    \qquad (M)&\quad \max c^Tx\\
+    S&\colon \begin{cases}
+    Ax &\leq b\\
+    x&\in \ZZ^E\times \RR^C
+    \end{cases}\quad
+    \end{aligned}$$\\[5pt]
+    donde $A$, $b$, $c$ son racionales. Llamemos $P=\{x\in \RR^{E\times C}, Ax\leq b\}$ a la relajación lineal natural de $S$, luego $S \subseteq P.$  Como los datos son racionales tenemos que el programa lineal relajado 
+    $\begin{aligned}
+        \qquad (L)&\quad \max c^Tx\\
+        P&\colon \begin{cases}
+        Ax &\leq b\\
+        x&\in \RR^{E\cup C}
+        \end{cases}\quad
+        \end{aligned}$\\[5pt]
+        
+    es o bien \textbf{infactible}, o bien \textbf{factible no acotado} o bien \textbf{factible acotado} con solución óptima $\bar{x}\in P$ racional. En este caso llamamos $\bar{z}=c^T\bar{x}$ a su valor.
+    
+    Llamemos $(M_0)$ al problema inicial dado y \textbf{pediremos que $(P_0)$ sea factible acotado}. Hacemos esto pues  BnB \emph{a secas} no es capaz de lidiar con problemas con relajación no acotada en la dirección de optimización.
+    
+    
+    
+    
+    
+    
+    
+    Para resolver $(M_0)$ se construye \textbf{iterativamente} un árbol $\calT$ cuyos nodos son de la forma $(M,B,s)$ con $(M)$ un subproblema de $(M_0)$, $B$ una cota superior (optimista) del valor de $(M_0)$, y $s$ un \textbf{status} que puede ser \textbf{activo}, \textbf{ramificado}, \textbf{infactible}, \textbf{dominado} o \textbf{entero}. Tanto la cota como el status de un nodo puede cambiar a lo largo del algoritmo.
+    
+    En el árbol  siempre se tendrá que \textbf{la unión de los dominios de las hojas} es el \textbf{dominio} de la raíz. Además se mantiene globalmente una solución factible (inicialmente nula) $x^*$ llamada \textbf{incumbente} que resulta ser la mejor solución encontrada hasta ahora y $z^*=c^Tx^*$ su valor (también llamada \textbf{mejor cota inferior}).
+    Inicialmente, el nodo raíz es $(M_0,B_0,\text{activo})$ donde $M_0$ es el PLM original y $B_0$ es el valor $\bar{z}$ de su relajación. Además, $x^*$ es nulo y $z^*=-\infty$. Durante el algoritmo BnB hay 2 procesos importantes: la \textbf{creación de un nodo} y la \textbf{ramificación de un nodo activo}.
+    
+    
+    %Abajo describimos la creación de un nodo $(M)$ y como se determina sus cotas y status.
+    
+    \begin{algorithm}[H]
+    	\caption{Creación de un nodo $(M)$}
+    	\label{alg:bnb}
+    	\begin{algorithmic}[1] 
+    		\State Resolver la relajación lineal $(P)$ de $(M)$.
+    		\If{$(P)$ es infactible}  \Return{$(M,-\infty,\text{infactible})$.}
+    		\EndIf
+    		\If{el óptimo $\bar{x}$ de $(P)$ es factible para $(M)$}
+    			\If{$\bar{z} \leq z^*$} {\Return{$(M,\bar{z},\text{entero})$}} \EndIf
+    			\If{$\bar{z} > z^*$}  {$x^*\gets \bar{x}$, $z^*\gets \bar{z}$, \Return{$(M,\bar{z},\text{entero})$} \Comment{actualizar incumbente}}\EndIf
+    		\EndIf
+    				\If{el óptimo $\bar{x}$ de $(P)$ es infactible para $(M)$}
+    			\If{$\bar{z}\leq z^*$} {\Return $(M,\bar{z}, \text{dominado})$} \EndIf
+    			\If{$\bar{z}> z^*$} {\Return $(M,\bar{z}, \text{activo})$} \EndIf
+    		\EndIf
+    	
+    	\end{algorithmic}
+    \end{algorithm} 
+    
+    Notamos que si un nodo se declara entero, entonces conocemos su mejor valor factible. Si un nodo se declara dominado en su dominio $S$ no pueden haber soluciones enteras mejores que el incumbente, por lo que no es necesario seguir procesándolo, al igual que si el nodo se declara infactible. Los únicos problemas que podrían tener soluciones enteras mejores que el incumbente actual son aquellos que están activos.
+    
+    Por otro lado, ramificar un nodo activo $(M,B(M),\text{activo})$ consiste en:
+    \begin{algorithm}[H]
+    	\caption{Ramificar nodo $(M,B(M),\text{activo})$}
+    	\label{alg:bnb}
+    	\begin{algorithmic}[1] 
+    		\State Determinar $k\geq 2$ subproblemas $(M_i)$ tales que la unión de sus dominios es el dominio de $M$.
+    		\State Crear un nodo $(M_i)$ para cada subproblema y colgarlo como hijo de $(M)$.
+    		\State Declarar el status de $(M)$ como ramificado.
+    	\end{algorithmic}
+    \end{algorithm} 
+    
+    Hay varias formas de ramificar un nodo. Una forma estándar y simple es hacer \textbf{branching en una variable dada}. 
+    
+    \paragraph{Branching en una variable $x_k$} Como el óptimo $\bar{x}\in P$ de $(P)$ no es factible en $(M)$ debe haber una coordenada $k\in E$ tal que la variable $\bar{x}_k$ es fraccional (pero que debería ser entera en $(M)$). Podemos \textbf{elegir} una coordenada y definir entonces dos PLM nuevos $(M_1)$ y $(M_2)$ como sigue:
+    \begin{align*}
+    S_1&=S\cap \{x\colon x_k \leq \lfloor \bar{x}_k \rfloor\}. &S_2&=S\cap \{x\colon x_k \geq \lceil \bar{x}_k \rceil\}.\\
+    P_1&= P \cap \{x\colon x_k \leq \lfloor \bar{x}_k \rfloor\}. &P_2&= P \cap \{x\colon x_k \geq \lceil \bar{x}_k \rceil\}.\\
+    (M_1)&\colon \max\{c^Tx\colon x\in S_1\}. & (M_2)&\colon \max\{c^Tx\colon x\in S_2\}.\\
+    (L_1)&\colon \max\{c^Tx\colon x\in P_1\}. & (L_2)&\colon \max\{c^Tx\colon x\in P_2\}.
+    \end{align*}
+    
+    Esto satisface las condiciones de la ramificación anterior. Ahora estamos listos para escribir el algoritmo de BnB completo. Como BnB es un método genérico hay algunas instrucciones (en rojo) que no están completamente descritas. 
+    
+    
+    \begin{algorithm}[H]
+    	\caption{BnB}
+    	\label{alg:bnb}
+    	\begin{algorithmic}[1]
+    		\Ensure{Un PLM $(M_0)$ \textbf{racional} con relajación $(L_0)$ factible acotada.}
+    		\State $x^*\gets \textsc{null}$, Crear nodo $(M_0)$ como raíz del árbol $\calT$.
+    		\While{existan nodos activos en $\calT$}
+    		\State {Si se ha alcanzado un criterio de terminación temprana {\color{red} parar}}
+    		\State {\color{red} Elegir} un nodo activo $(M,B,\text{activo})$ y ramificarlo.
+    		\State \textbf{Actualizar} las cotas $B(M')$ para cada nodo $(M')$ en el camino entre $(M)$ y la raíz $(M_0)$, i.e.\\
+    		\qquad \qquad $B(M')\gets \min\{B(M'), \max\{B(\tilde{M})\colon (\tilde{M}) \text{ es hijo de } (M')\}\}$
+    		\State Si el incumbente cambió, \textbf{actualizar} todos los nodos activos que ahora estén dominados, i.e.\\
+    		\qquad \qquad Declarar todo $(M',B',\text{activo})$ con $B'\leq z^*$ como dominado.
+    		\EndWhile
+    		\State Return $x^*$.
+    	\end{algorithmic}
+    \end{algorithm} 
+    
+    Discutiremos luego criterios de terminación temprana. Pero si en algún minuto necesitamos terminar, entonces observamos que el valor óptimo de $M_0$ siempre está en $[z^*, B(M_0)]$. La razón $\frac{B(M_0)-z^*}{z^*}$ se suele llamar el \textbf{GAP} de resolución (en dicho momento). Hagamos un ejemplo concreto de BnB usando solo branchings por variables.    
+    
+    \begin{minipage}{0.3\textwidth}
+    \begin{align*}
+    M_0&:\quad 	\max 3x+5y\\
+    S_0&:\quad \begin{cases}
+    20y+9x&\leq 74\\
+    25y+18x&\leq 105\\
+    x,y&\geq 0\\
+    x,y&\in \ZZ
+    \end{cases}
+    \end{align*}
+    	\end{minipage}		
+    \begin{minipage}{0.7\textwidth}
+    
+
+ 	\begin{lstlisting}[escapechar=Ñ]
+modelo= Model()
+set_optimizer(modelo, Gurobi.Optimizer)
+set_optimizer_attributes(modelo, "Presolve" => 0,
+"OutputFlag" => 0) 
+@variable(modelo, x>=0, base_name="x")
+@variable(modelo, y>=0, base_name="y")
+@constraint(modelo, rest1, 20y + 9x<=74)
+@constraint(modelo, rest2, 25y+ 18x<=105)
+@objective(modelo, Max, 3x+5y)
+optimize!(modelo)
+termination_status(modelo)
+
+Ñ\bl{OPTIMAL::TerminationStatusCode = 1}Ñ
+
+println("z=",objective_value(modelo)," x=",
+  value(modelo[:x])," y=", value(modelo[:y]))
+
+Ñ\bl{z=19.799999999999997 x=2.0 y=2.76}Ñ
+    	\end{lstlisting}
+    \end{minipage}
+    
+        Al resolver la relajación lineal anterior (por ejemplo con el solver \GUROBI mediante \JULIA, a la derecha), encontramos que el óptimo del PL asociado es $(x_0,y_0)\approx (1.8518, 2.866)$, $z\approx 19.888$ que no es entero. Luego el nodo raíz $M_0$ queda activo, con cota superior $B=19.888$.
+        
+    Estudiemos el árbol que BnB produce, por simplicidad anotemos en cada nodo además el punto fraccional óptimo de la relajación. Escribamos además sobre la raíz los datos actuales del incumbente.
+    \medskip
+    
+    \begin{minipage}{0.5\textwidth}
+    \begin{center}\tikzset{%
+    		>=stealth,
+    		parent node/.style={%
+    			rectangle split,
+    			rectangle split parts=2,
+    			align=left,
+    			text width=2.5cm,
+    			draw,
+    			node distance=1cm and 1cm
+    		}
+    	}
+    	\begin{forest}
+    		forked edges,
+    		for tree={
+    			draw,
+    			inner xsep=0pt,
+    			align={c},
+    			edge={-Stealth},
+    			l sep+=20pt,
+    			fork sep+=10pt,
+    		}
+    		[{$(M_0, B=19.888, \text{ACT}$)}\\
+    		 {$(1.8518,2.866), z_0=19.888$}] \node[anchor=north,align=center, above=1em,red]{${(x^*,y^*)=\textsc{null}, z^*=-\infty}$};
+    	\end{forest}
+    \end{center}
+    
+    \end{minipage}		
+    \begin{minipage}{0.5\textwidth}
+    	
+    	
+    	\definecolor{rvwvcq}{rgb}{0.08235294117647059,0.396078431372549,0.7529411764705882}\definecolor{wrwrwr}{rgb}{0.3803921568627451,0.3803921568627451,0.3803921568627451}\definecolor{ffqqqq}{rgb}{1,0,0}\definecolor{qqqqff}{rgb}{0,0,1}\definecolor{cqcqcq}{rgb}{0.7529411764705882,0.7529411764705882,0.7529411764705882}
+    	\begin{tikzpicture}[line cap=round,line join=round,>=triangle 45,x=1cm,y=1cm]\draw [color=cqcqcq,, xstep=1cm,ystep=1cm] (-0.74809875166684,-0.4365493172946857) grid (6.724155137810463,4.736549529266528);\draw[->,color=black] (0,0) -- (6.724155137810463,0);\foreach \x in {,1,2,3,4,5,6}\draw[shift={(\x,0)},color=black] (0pt,2pt) -- (0pt,-2pt) node[below] {\footnotesize $\x$};\draw[->,color=black] (0,0) -- (0,4.736549529266528);\foreach \y in {,1,2,3,4}\draw[shift={(0,\y)},color=black] (2pt,0pt) -- (-2pt,0pt) node[left] {\footnotesize $\y$};\draw[color=black] (0pt,-10pt) node[right] {\footnotesize $0$};\clip(-0.74809875166684,-0.4365493172946857) rectangle (6.724155137810463,4.736549529266528);\fill[line width=0.4pt,color=rvwvcq,fill=rvwvcq,fill opacity=0.10000000149011612] (0,0) -- (0,3.7) -- (1.8518518518518519,2.8666666666666667) -- (5.833333333333333,0) -- cycle;\draw [line width=0.4pt,color=qqqqff,domain=-0.74809875166684:6.724155137810463] plot(\x,{(--370-45*\x)/100});\draw [line width=0.4pt,color=ffqqqq,domain=-0.74809875166684:6.724155137810463] plot(\x,{(--420-72*\x)/100});\draw [->,line width=0.8pt,dotted] (0,0) -- (0.6,1);\draw [line width=0.4pt,color=rvwvcq] (0,0)-- (0,3.7);\draw [line width=0.4pt,color=rvwvcq] (0,3.7)-- (1.8518518518518519,2.8666666666666667);\draw [line width=0.4pt,color=rvwvcq] (1.8518518518518519,2.8666666666666667)-- (5.833333333333333,0);\draw [line width=0.4pt,color=rvwvcq] (5.833333333333333,0)-- (0,0);\begin{scriptsize}%\draw [fill=wrwrwr] (0,0) circle (2.5pt);
+    	%\draw [fill=wrwrwr] (1.8518518518518519,2.8666666666666667) circle (2.5pt);
+    	%\draw[color=wrwrwr] (1.8935008627821783,2.978321069332581) node {$p_0$};
+    	%\draw [fill=wrwrwr] (0,3.7) circle (2.5pt);\draw [fill=wrwrwr] (5.833333333333333,0) circle (2.5pt);
+    	\draw[color=rvwvcq] (1.9619088209252804,1.7019774465657151) node {$P0$};\end{scriptsize}\end{tikzpicture}
+    \end{minipage}
+    
+    Como ambas coordenadas de $(x_0,y_0)$ son fraccionales \textbf{podemos elegir una}, digamos $x$ y \textbf{ramificar} de acuerdo a dicha variable, creando dos problemas $M_1$ y $M_2$, con conjuntos factibles $S_1=S_0\cap \{x\leq \lfloor x_0\rfloor\}$ y $S_1=S_0\cap \{x\geq \lceil x_0\rceil\}$. 
+    
+    
+    \begin{minipage}{0.35\textwidth}
+    	\begin{align*}
+    	M_1&:\quad 	\max 3x+5y & M_2&:\quad 	\max 3x+5y\\ 
+    	S_1&:\quad \begin{cases}
+    	20y+9x&\leq 74\\
+    	25y+18x&\leq 105\\
+    	x&\leq 1\\
+    	x,y&\geq 0\\
+    	x,y&\in \ZZ\end{cases}&S_2&:\quad \begin{cases}
+    	20y+9x&\leq 74\\
+    	25y+18x&\leq 105\\
+    	x&\geq 2\\
+    	x,y&\geq 0\\
+    	x,y&\in \ZZ\end{cases}
+    	\end{align*}
+    \end{minipage}		
+    \begin{minipage}{0.65\textwidth}
+
+    	\begin{lstlisting}[escapechar=Ñ]
+#modelo M1
+set_upper_bound(modelo[:x], 1) 
+optimize!(modelo)
+termination_status(modelo)
+
+Ñ\bl{OPTIMAL::TerminationStatusCode = 1}Ñ
+
+println("z=",objective_value(modelo),
+ " x=", value(modelo[:x]),
+ " y=", value(modelo[:y]))
+
+Ñ\bl{z=19.25 x=1.0 y=3.25}Ñ
+
+#modelo M2
+delete_upper_bound(modelo[:x]) 
+set_lower_bound(modelo[:x], 2)
+optimize!(modelo)
+termination_status(modelo)
+
+Ñ\bl{OPTIMAL::TerminationStatusCode = 1}Ñ
+
+println("z=",objective_value(modelo),
+ " x=", value(modelo[:x]),
+ " y=", value(modelo[:y]))
+
+Ñ\bl{z=19.799999999999997 x=2.0 y=2.76}Ñ
+    	\end{lstlisting}
+
+    \end{minipage}
+    
+    La solución óptima de la relajación de  $M_1$ es $(x_1,y_1)=(1;3.25)$ de valor $z_1=19.25$, y la solución óptima de la relajación de $M_2$ es $(x_2,y_2)=(2;2.76)$ de valor $z_2=19.8$. Luego ambos nodos se crean activos. Más aún la cota de $M_0$ se actualiza a $\max\{19.25,19.8\}=19.8$. Por lo que el nuevo árbol de BnB (y su diagrama actual) se ven asi:
+    	
+    
+    \begin{minipage}{0.5\textwidth}
+    \begin{center}\tikzset{%
+    		>=stealth,
+    		parent node/.style={%
+    			rectangle split,
+    			rectangle split parts=2,
+    			align=left,
+    			text width=2.5cm,
+    			draw,
+    			node distance=1cm and 1cm
+    		}
+    	}
+    	\begin{forest}
+    		forked edges,
+    		for tree={
+    			draw,
+    			inner xsep=0pt,
+    			align={c},
+    			edge={-Stealth},
+    			l sep+=20pt,
+    			fork sep+=10pt,
+    		}
+    		[{$(M_0, B_0=19.8, \textsc{ram})$}\\
+    		{$(1.8518,2.866), z_0=19.888$}
+    		[{$M_1, B_1=19.25, \textsc{act}$}\\
+    		{$(1;3.25), z_1=19.25$}, edge label={node[midway,left]{$x\leq 1$}}]
+    		[{$M_2, B_2=19.8, \textsc{act}$}\\
+    		{$(2;2.76), z_2=19.8$}, edge label={node[midway,right]{$x\geq 2$}}]
+    		] \node[anchor=north,align=center, above=1em,red]{${(x^*,y^*)=\textsc{null}, z^*=-\infty}$};
+    	\end{forest}
+    \end{center}
+    
+    \end{minipage}		
+    \begin{minipage}{0.5\textwidth}
+    	
+    	
+    	\definecolor{rvwvcq}{rgb}{0.08235294117647059,0.396078431372549,0.7529411764705882}\definecolor{wrwrwr}{rgb}{0.3803921568627451,0.3803921568627451,0.3803921568627451}\definecolor{ffqqqq}{rgb}{1,0,0}\definecolor{qqqqff}{rgb}{0,0,1}\definecolor{cqcqcq}{rgb}{0.7529411764705882,0.7529411764705882,0.7529411764705882}\begin{tikzpicture}[line cap=round,line join=round,>=triangle 45,x=1cm,y=1cm]\draw [color=cqcqcq,, xstep=1cm,ystep=1cm] (-0.53007,-0.5733410783542752) grid (6.89137,4.730742840954084);\draw[->,color=black] (0,0) -- (6.89137,0);\foreach \x in {,1,2,3,4,5,6}\draw[shift={(\x,0)},color=black] (0pt,2pt) -- (0pt,-2pt) node[below] {\footnotesize $\x$};\draw[->,color=black] (0,0) -- (0,4.730742840954084);\foreach \y in {,1,2,3,4}\draw[shift={(0,\y)},color=black] (2pt,0pt) -- (-2pt,0pt) node[left] {\footnotesize $\y$};\draw[color=black] (0pt,-10pt) node[right] {\footnotesize $0$};\clip(-0.53007,-0.5733410783542752) rectangle (6.89137,4.730742840954084);\fill[line width=0.4pt,color=rvwvcq,fill=rvwvcq,fill opacity=0.10000000149011612] (0,0) -- (1,0) -- (1.011296132080509,3.244916740563771) -- (0,3.7) -- cycle;\fill[line width=0.4pt,color=rvwvcq,fill=rvwvcq,fill opacity=0.10000000149011612] (2,0) -- (1.9947790995869785,2.7637590482973757) -- (5.833333333333333,0) -- cycle;\draw [line width=0.4pt,color=qqqqff,domain=-0.53007:6.89137] plot(\x,{(--370-45*\x)/100});\draw [line width=0.4pt,color=ffqqqq,domain=-0.53007:6.89137] plot(\x,{(--420-72*\x)/100});\draw [->,line width=0.8pt,dotted] (0,0) -- (0.6,1);\draw [line width=0.4pt,color=rvwvcq] (0,0)-- (1,0);\draw [line width=0.4pt,color=rvwvcq] (1,0)-- (1.011296132080509,3.244916740563771);\draw [line width=0.4pt,color=rvwvcq] (1.011296132080509,3.244916740563771)-- (0,3.7);\draw [line width=0.4pt,color=rvwvcq] (0,3.7)-- (0,0);\draw [line width=0.4pt,color=rvwvcq] (2,0)-- (1.9947790995869785,2.7637590482973757);\draw [line width=0.4pt,color=rvwvcq] (1.9947790995869785,2.7637590482973757)-- (5.833333333333333,0);\draw [line width=0.4pt,color=rvwvcq] (5.833333333333333,0)-- (2,0);
+    	\begin{scriptsize}
+    	\draw[color=rvwvcq] (0.5446486167146962,1.7979907948445728) node {$P1$};
+    	\draw[color=rvwvcq] (3.314321469740634,0.9852682588215176) node {$P2$};\end{scriptsize}\end{tikzpicture}
+    \end{minipage}
+    
+    \medskip
+    
+    Resulta útil anotar en las aristas del árbol que restricciones hemos agregado en cada problema. Ahora hay 2 nodos activos en el árbol y podemos elegir cualquiera para ramificar. La solución $(x_1,y_1)$ tiene variable $y$ fraccional. Ramifiquemos $M_1$ en dos problemas $M_3$ y $M_4$ de acuerdo a si $y\leq 3$ o si $y\geq 4$. Obtenemos:
+    
+    \begin{minipage}{0.4\textwidth}
+    	\begin{align*}
+    	M_3&:\quad 	\max 3x+5y & M_4&:\quad 	\max 3x+5y\\ 
+    	S_3&:\quad \begin{cases}
+    	20y+9x&\leq 74\\
+    	25y+18x&\leq 105\\
+    	x&\leq 1\\
+    	y&\leq 3\\
+    	x,y&\geq 0\\
+    	x,y&\in \ZZ\end{cases}&S_4&:\quad \begin{cases}
+    	20y+9x&\leq 74\\
+    	25y+18x&\leq 105\\
+    	x&\leq 1\\
+    	y&\geq 4\\
+    	x,y&\geq 0\\
+    	x,y&\in \ZZ\end{cases}
+    	\end{align*}
+    \end{minipage}		
+    \begin{minipage}{0.6\textwidth}
+    		\begin{lstlisting}[escapechar=Ñ]
+#Modelo M3
+set_lower_bound(modelo[:x],0)
+set_upper_bound(modelo[:x],1) 
+set_upper_bound(modelo[:y],3) 
+optimize!(modelo)
+termination_status(modelo)
+
+Ñ\bl{OPTIMAL::TerminationStatusCode = 1}Ñ
+
+println("z=",objective_value(modelo),
+ " x=", value(modelo[:x]),
+ " y=", value(modelo[:y]))
+
+Ñ\bl{z=18.0 x=1.0 y=3.0}Ñ
+
+#Modelo M4
+delete_upper_bound(modelo[:y])
+set_lower_bound(modelo[:y],4) 
+optimize!(modelo)
+termination_status(modelo)
+
+Ñ\bl{INFEASIBLE::TerminationStatusCode = 2}Ñ
+    		\end{lstlisting}
+    \end{minipage}
+    
+    La solución de la relajación de $M_3$ es entera $(x_3,y_3)=(1,2)$ con $z_3=18$. Por lo que $M_3$ se declara entero y además, $(x_3,y_3)$ se transforma en incumbente (actualizando también $z^*$). 
+    Mientras tanto la relajación de $M_4$ es infactible, por lo que su cota es $-\infty$. Actualizamos la cota superior de $M_1$ a $18$, mientras que la cota de $M_0$ se mantiene.
+    
+    Nuestro \textbf{árbol de BnB} se ve actualmente así. 
+    
+    \begin{minipage}{.5\textwidth}
+    \begin{center}\tikzset{%
+    	>=stealth,
+    	parent node/.style={%
+    		rectangle split,
+    		rectangle split parts=2,
+    		align=left,
+    		text width=2.5cm,
+    		draw,
+    		node distance=1cm and 1cm
+    	}
+    }
+    	\begin{forest}
+    		forked edges,
+    		for tree={
+    			draw,
+    			inner xsep=0pt,
+    			align={c},
+    			edge={-Stealth},
+    			l sep+=20pt,
+    			fork sep+=10pt,
+    		}
+    		[{$(M_0, B_0=19.8, \textsc{ram})$}\\
+    		{$(1.8518,2.866), z_0=19.888$}
+    		[{$M_1, B_1=18, \textsc{ram}$}\\
+    		{$(1;3.25), z_1=19.25$}, edge label={node[midway,left]{$x\leq 1$}}
+    		[{$M_3, B_3=18, \textsc{ent}$}\\
+    		{$(1;3), z_3=18$}, edge label={node[midway,left]{$y\leq 3$}}]
+    		[{$M_4, B_4=-\infty, \textsc{inf}$}, edge label={node[midway,right]{$y\geq 4$}}]
+    		]
+    		[{$M_2, B_2=19.8, \textsc{act}$}\\
+    		{$(2;2.76), z_2=19.8$}, edge label={node[midway,right]{$x\geq 2$}}]
+    		] \node[anchor=north,align=center, above=1em,red]{${(x^*,y^*)=(1,3),  z^*=18}$};
+    	\end{forest}
+    \end{center}
+    \end{minipage}
+    \begin{minipage}{.5\textwidth}
+    	\definecolor{qqttcc}{rgb}{0,0.2,0.8}\definecolor{rvwvcq}{rgb}{0.08235294117647059,0.396078431372549,0.7529411764705882}\definecolor{wrwrwr}{rgb}{0.3803921568627451,0.3803921568627451,0.3803921568627451}\definecolor{ffqqqq}{rgb}{1,0,0}\definecolor{qqqqff}{rgb}{0,0,1}\definecolor{cqcqcq}{rgb}{0.7529411764705882,0.7529411764705882,0.7529411764705882}\begin{tikzpicture}[line cap=round,line join=round,>=triangle 45,x=1cm,y=1cm]\draw [color=cqcqcq,, xstep=1cm,ystep=1cm] (-0.53007,-0.5733410783542761) grid (6.89137,4.730742840954085);\draw[->,color=black] (0,0) -- (6.89137,0);\foreach \x in {,1,2,3,4,5,6}\draw[shift={(\x,0)},color=black] (0pt,2pt) -- (0pt,-2pt) node[below] {\footnotesize $\x$};\draw[->,color=black] (0,0) -- (0,4.730742840954085);\foreach \y in {,1,2,3,4}\draw[shift={(0,\y)},color=black] (2pt,0pt) -- (-2pt,0pt) node[left] {\footnotesize $\y$};\draw[color=black] (0pt,-10pt) node[right] {\footnotesize $0$};\clip(-0.53007,-0.5733410783542761) rectangle (6.89137,4.730742840954085);\fill[line width=0.4pt,color=rvwvcq,fill=rvwvcq,fill opacity=0.10000000149011612] (2,0) -- (1.9947790995869785,2.7637590482973757) -- (5.833333333333333,0) -- cycle;\fill[line width=0.4pt,color=rvwvcq,fill=rvwvcq,fill opacity=0.10000000149011612] (0,0) -- (0,3) -- (1,3) -- (1,0) -- cycle;\draw [line width=0.4pt,color=qqqqff,domain=-0.53007:6.89137] plot(\x,{(--370-45*\x)/100});\draw [line width=0.4pt,color=ffqqqq,domain=-0.53007:6.89137] plot(\x,{(--420-72*\x)/100});\draw [->,line width=0.8pt,dotted] (0,0) -- (0.6,1);\draw [line width=0.4pt,color=rvwvcq] (2,0)-- (1.9947790995869785,2.7637590482973757);\draw [line width=0.4pt,color=rvwvcq] (1.9947790995869785,2.7637590482973757)-- (5.833333333333333,0);\draw [line width=0.4pt,color=rvwvcq] (5.833333333333333,0)-- (2,0);\draw [line width=0.4pt,color=rvwvcq] (0,0)-- (0,3);\draw [line width=0.4pt,color=rvwvcq] (0,3)-- (1,3);\draw [line width=0.4pt,color=rvwvcq] (1,3)-- (1,0);\draw [line width=0.4pt,color=rvwvcq] (1,0)-- (0,0);\begin{scriptsize}
+    	\draw[color=rvwvcq] (3.2929340345821334,0.9558605354785777) node {$P2$};
+    	\draw[color=rvwvcq] (0.517914322766569,1.5333212847581172) node {$P3$};
+    	\draw [color=qqttcc](2.95073507204611,3.3672938495996174) node[anchor=north west] {$P4=\emptyset$};
+    	\end{scriptsize}\end{tikzpicture}
+    \end{minipage}
+    
+    Como tenemos incumbente y cota, el \textbf{gap} de nuestra solución actual  es $\frac{19.8-18}{18}=\frac{1.8}{18}=0.1=10\%$. Solo queda $M_2$ activo, lo ramificamos en $M_5$ y $M_6$, donde $y\leq$ o $y\geq3$ respectivamente. 
+    
+    \begin{minipage}{0.4\textwidth}
+    	\begin{align*}
+    	M_5&:\quad 	\max 3x+5y & M_6&:\quad 	\max 3x+5y\\ 
+    	S_5&:\quad \begin{cases}
+    	20y+9x&\leq 74\\
+    	25y+18x&\leq 105\\
+    	x&\geq 2\\
+    	y&\leq 2\\
+    	x,y&\geq 0\\
+    	x,y&\in \ZZ\end{cases}&S_6&:\quad \begin{cases}
+    	20y+9x&\leq 74\\
+    	25y+18x&\leq 105\\
+    	x&\geq 2\\
+    	y&\geq 3\\
+    	x,y&\geq 0\\
+    	x,y&\in \ZZ\end{cases}
+    	\end{align*}
+    \end{minipage}		
+    \begin{minipage}{0.6\textwidth}
+    		\begin{lstlisting}[escapechar=Ñ]
+#Modelo M5
+set_lower_bound(modelo[:x],2)
+delete_upper_bound(modelo[:x])
+set_upper_bound(modelo[:y],2) 
+set_lower_bound(modelo[:y],0)
+optimize!(modelo)
+termination_status(modelo)
+
+Ñ\bl{OPTIMAL::TerminationStatusCode = 1}Ñ
+
+println("z=",objective_value(modelo),
+ " x=", value(modelo[:x]),
+ " y=", value(modelo[:y]))
+
+Ñ\bl{z=19.166666666666664 x=3.0555555555555554 y=2.0}Ñ
+
+#Modelo M6
+delete_upper_bound(modelo[:y])
+set_lower_bound(modelo[:y],3) 
+optimize!(modelo)
+termination_status(modelo)
+
+Ñ\bl{INFEASIBLE::TerminationStatusCode = 2}Ñ
+\end{lstlisting}
+    \end{minipage}
+    
+    Notamos que $M_6$ es infactible, y la relajación de $M_5$ tiene solución $(3.0555;2)$ con valor $z_5=19.1667$ por lo que queda activo (y podemos actualizar las cotas). Actualizamos el árbol BnB como sigue:
+    	
+    \begin{center}\tikzset{%
+    			>=stealth,
+    			parent node/.style={%
+    				rectangle split,
+    				rectangle split parts=2,
+    				align=left,
+    				text width=2.5cm,
+    				draw,
+    				node distance=1cm and 1cm
+    			}
+    		}
+    			\begin{forest}
+    				forked edges,
+    				for tree={
+    					draw,
+    					inner xsep=0pt,
+    					align={c},
+    					edge={-Stealth},
+    					l sep+=20pt,
+    					fork sep+=10pt,
+    				}
+    				[{$(M_0, B_0=19.1667, \textsc{ram})$}\\
+    				{$(1.8518,2.866), z_0=19.888$}
+    				[{$M_1, B_1=18, \textsc{ram}$}\\
+    				{$(1;3.25), z_1=19.25$}, edge label={node[midway,left]{$x\leq 1$}}
+    				[{$M_3, B_3=18, \textsc{ent}$}\\
+    				{$(1;3), z_3=18$}, edge label={node[midway,left]{$y\leq 3$}}]
+    				[{$M_4, B_4=-\infty, \textsc{inf}$}, edge label={node[midway,right]{$y\geq 4$}}]
+    				]
+    				[{$M_2, B_2=19.1667, \textsc{ram}$}\\
+    				{$(2;2.76), z_2=19.8$}, edge label={node[midway,right]{$x\geq 2$}}
+    				[{$M_5, B_5=19.1667, \textsc{act}$}\\
+    				{$(3.0555;2), z_5=19.1667$}, edge label={node[midway,left]{$y\leq 2$}}]
+    				[{$M_6, B_6=-\infty, \textsc{inf}$}, edge label={node[midway,right]{$y\geq 3$}}]
+    				]
+    				] \node[anchor=north,align=center, above=1em,red]{${(x^*,y^*)=(1,3), z^*=18}$};
+    			\end{forest}
+    	\end{center}
+    \begin{center}
+    \definecolor{qqttcc}{rgb}{0,0.2,0.8}\definecolor{rvwvcq}{rgb}{0.08235294117647059,0.396078431372549,0.7529411764705882}\definecolor{ffqqqq}{rgb}{1,0,0}\definecolor{qqqqff}{rgb}{0,0,1}\definecolor{cqcqcq}{rgb}{0.7529411764705882,0.7529411764705882,0.7529411764705882}\begin{tikzpicture}[line cap=round,line join=round,>=triangle 45,x=1cm,y=1cm]\draw [color=cqcqcq,, xstep=1cm,ystep=1cm] (-0.53007,-0.5733410783542809) grid (6.89137,4.730742840954088);\draw[->,color=black] (0,0) -- (6.89137,0);\foreach \x in {,1,2,3,4,5,6}\draw[shift={(\x,0)},color=black] (0pt,2pt) -- (0pt,-2pt) node[below] {\footnotesize $\x$};\draw[->,color=black] (0,0) -- (0,4.730742840954088);\foreach \y in {,1,2,3,4}\draw[shift={(0,\y)},color=black] (2pt,0pt) -- (-2pt,0pt) node[left] {\footnotesize $\y$};\draw[color=black] (0pt,-10pt) node[right] {\footnotesize $0$};\clip(-0.53007,-0.5733410783542809) rectangle (6.89137,4.730742840954088);\fill[line width=0.4pt,color=rvwvcq,fill=rvwvcq,fill opacity=0.10000000149011612] (0,0) -- (0,3) -- (1,3) -- (1,0) -- cycle;\fill[line width=0.4pt,color=rvwvcq,fill=rvwvcq,fill opacity=0.10000000149011612] (2,0) -- (2,2) -- (3.0555555555555554,2) -- (5.829971467417614,0.0024205434593175717) -- cycle;\draw [line width=0.4pt,color=qqqqff,domain=-0.53007:6.89137] plot(\x,{(--370-45*\x)/100});\draw [line width=0.4pt,color=ffqqqq,domain=-0.53007:6.89137] plot(\x,{(--420-72*\x)/100});\draw [->,line width=0.8pt,dotted] (0,0) -- (0.6,1);\draw [line width=0.4pt,color=rvwvcq] (0,0)-- (0,3);\draw [line width=0.4pt,color=rvwvcq] (0,3)-- (1,3);\draw [line width=0.4pt,color=rvwvcq] (1,3)-- (1,0);\draw [line width=0.4pt,color=rvwvcq] (1,0)-- (0,0);\draw [line width=0.4pt,color=rvwvcq] (2,0)-- (2,2);\draw [line width=0.4pt,color=rvwvcq] (2,2)-- (3.0555555555555554,2);\draw [line width=0.4pt,color=rvwvcq] (3.0555555555555554,2)-- (5.829971467417614,0.0024205434593175717);\draw [line width=0.4pt,color=rvwvcq] (5.829971467417614,0.0024205434593175717)-- (2,0);\begin{scriptsize}\draw[color=rvwvcq] (0.5179143227665681,1.5333212847581155) node {$P3$};\draw[color=rvwvcq] (3.239465446685882,1.036063417322956) node {$P5$};
+    \draw [color=qqttcc](2.950735072046112,3.367293849599618) node[anchor=north west] {$P4,P6=\emptyset$};\end{scriptsize}\end{tikzpicture}\end{center}
+    
+    Nuestro gap mejoró a $(19.1667-18)/18=6.48\%$. Nuevamente tenemos solo un nodo activo, $M_5$. Lo ramificamos en $x$, definiendo los problemas $M_7$ y $M_8$ con $x\leq 3$ y $x\geq 4$ respectivamente:
+    
+    \begin{minipage}{0.4\textwidth}
+    	\begin{align*}
+    	M_7&:\quad 	\max 3x+5y & M_8&:\quad 	\max 3x+5y\\ 
+    	S_7&:\quad \begin{cases}
+    	20y+9x&\leq 74\\
+    	25y+18x&\leq 105\\
+    	x&\geq 2\\
+    	x&\leq 3\\
+    	y&\leq 2\\
+    	x,y&\geq 0\\
+    	x,y&\in \ZZ\end{cases}&S_8&:\quad \begin{cases}
+    	20y+9x&\leq 74\\
+    	25y+18x&\leq 105\\
+    	x&\geq 4\\
+    	y&\geq 2\\
+    	x,y&\geq 0\\
+    	x,y&\in \ZZ\end{cases}
+    	\end{align*}
+    \end{minipage}		
+    \begin{minipage}{0.6\textwidth}
+    	\begin{quote}
+    		\begin{lstlisting}[escapechar=Ñ]
+#Modelo M7
+set_lower_bound(modelo[:x],0)
+set_upper_bound(modelo[:x],3)
+set_upper_bound(modelo[:y],2) 
+set_lower_bound(modelo[:y],0)
+optimize!(modelo)
+termination_status(modelo)
+
+Ñ\bl{OPTIMAL::TerminationStatusCode = 1}Ñ
+
+println("z=",objective_value(modelo),
+ " x=", value(modelo[:x]),
+ " y=", value(modelo[:y]))
+
+Ñ\bl{z=19.0 x=3.0 y=2.0}Ñ
+
+#Modelo M8
+delete_upper_bound(modelo[:x])
+set_lower_bound(modelo[:x],4)
+optimize!(modelo)
+termination_status(modelo)
+
+Ñ\bl{OPTIMAL::TerminationStatusCode = 1}Ñ
+
+println("z=",objective_value(modelo),
+ " x=", value(modelo[:x]),
+ " y=", value(modelo[:y]))
+ 
+Ñ\bl{z=18.6 x=4.0 y=1.32}Ñ
+    		\end{lstlisting}
+    	\end{quote}
+    \end{minipage}
+    
+    
+    
+    Al resolver la relajación de $M_7$ se obtiene una solución \textbf{integral} $(x_7,y_7)=(3,2)$ con $z_7=19$. Como 19 es mayor que nuestro valor incumbente actual, éste se actualiza. Por otro lado al resolver la relajación de $M_8$ se obtiene una solución fraccional $(x_8,y_8)=(4;1.32)$ con $z_8=18.6$. Pero esta vez $z_8$ es peor que el valor incumbente (19), por lo que se declara \textbf{dominado}  (o podado por cota).
+    
+    
+    Con esto hemos completado el árbol de BnB y obtenemos que la solución óptima es $(3,2)$ de valor 19.
+    
+    \begin{center}\tikzset{%
+    		>=stealth,
+    		parent node/.style={%
+    			rectangle split,
+    			rectangle split parts=2,
+    			align=left,
+    			text width=2.5cm,
+    			draw,
+    			node distance=1cm and 1cm
+    		}
+    	}
+    	\begin{forest}
+    		forked edges,
+    		for tree={
+    			draw,
+    			inner xsep=0pt,
+    			align={c},
+    			edge={-Stealth},
+    			l sep+=20pt,
+    			fork sep+=10pt,
+    		}
+    		[{$(M_0, B_0=19, \textsc{ram})$}\\
+    		{$(1.8518,2.866), z_0=19.888$}
+    		[{$M_1, B_1=18, \textsc{ram}$}\\
+    		{$(1;3.25), z_1=19.25$}, edge label={node[midway,left]{$x\leq 1$}}
+    		[{$M_3, B_3=18, \textsc{ent}$}\\
+    		{$(1;3), z_3=18$}, edge label={node[midway,left]{$y\leq 3$}}]
+    		[{$M_4, B_4=-\infty, \textsc{inf}$}, edge label={node[midway,right]{$y\geq 4$}}]
+    		]
+    		[{$M_2, B_2=19, \textsc{ram}$}\\
+    		{$(2;2.76), z_2=19.8$}, edge label={node[midway,right]{$x\geq 2$}}
+    		[{$M_5, B_5=19, \textsc{ram}$}\\
+    		{$(3.0555;2), z_5=19$}, edge label={node[midway,left]{$y\leq 2$}}
+    		[{$M_7, B_7=19, \textsc{ent}$}\\
+    		{$(3;2), z_7=19$}, edge label={node[midway,left]{$x\leq 3$}}]
+    		[{$M_8, B_8=18.6, \textsc{dom}$}\\
+    		{$(4;1.32), z_8=18.6$}, edge label={node[midway,right]{$x\leq 4$}}]
+    		]
+    		[{$M_6, B_6=-\infty, \textsc{inf}$}, edge label={node[midway,right]{$y\geq 3$}}]
+    		]
+    		] \node[anchor=north,align=center, above=1em,red]{${(x^*,y^*)=(3,2), z^*=19}$};
+    	\end{forest}
+    \end{center}
+    \begin{center}
+    \definecolor{qqttcc}{rgb}{0,0.2,0.8}\definecolor{rvwvcq}{rgb}{0.08235294117647059,0.396078431372549,0.7529411764705882}\definecolor{ffqqqq}{rgb}{1,0,0}\definecolor{qqqqff}{rgb}{0,0,1}\definecolor{cqcqcq}{rgb}{0.7529411764705882,0.7529411764705882,0.7529411764705882}\begin{tikzpicture}[line cap=round,line join=round,>=triangle 45,x=1cm,y=1cm]\draw [color=cqcqcq,, xstep=1cm,ystep=1cm] (-0.53007,-0.6428502426194105) grid (8.944563775216153,4.730742840954088);\draw[->,color=black] (0,0) -- (8.944563775216153,0);\foreach \x in {,1,2,3,4,5,6,7,8}\draw[shift={(\x,0)},color=black] (0pt,2pt) -- (0pt,-2pt) node[below] {\footnotesize $\x$};\draw[->,color=black] (0,0) -- (0,4.730742840954088);\foreach \y in {,1,2,3,4}\draw[shift={(0,\y)},color=black] (2pt,0pt) -- (-2pt,0pt) node[left] {\footnotesize $\y$};\draw[color=black] (0pt,-10pt) node[right] {\footnotesize $0$};\clip(-0.53007,-0.6428502426194105) rectangle (8.944563775216153,4.730742840954088);\fill[line width=0.4pt,color=rvwvcq,fill=rvwvcq,fill opacity=0.10000000149011612] (0,0) -- (0,3) -- (1,3) -- (1,0) -- cycle;\fill[line width=0.4pt,color=rvwvcq,fill=rvwvcq,fill opacity=0.10000000149011612] (2,0) -- (2,2) -- (3,2) -- (3,0) -- cycle;\fill[line width=0.4pt,color=rvwvcq,fill=rvwvcq,fill opacity=0.10000000149011612] (4,0) -- (4.000968269754668,1.3193028457766391) -- (5.833333333333333,0) -- cycle;\draw [line width=0.4pt,color=qqqqff,domain=-0.53007:8.944563775216153] plot(\x,{(--370-45*\x)/100});\draw [line width=0.4pt,color=ffqqqq,domain=-0.53007:8.944563775216153] plot(\x,{(--420-72*\x)/100});\draw [->,line width=0.8pt,dotted] (0,0) -- (0.6,1);\draw [line width=0.4pt,color=rvwvcq] (0,0)-- (0,3);\draw [line width=0.4pt,color=rvwvcq] (0,3)-- (1,3);\draw [line width=0.4pt,color=rvwvcq] (1,3)-- (1,0);\draw [line width=0.4pt,color=rvwvcq] (1,0)-- (0,0);\draw [color=qqttcc](2.950735072046112,3.367293849599618) node[anchor=north west] {$P4,P6=\emptyset$};\draw [line width=0.4pt,color=rvwvcq] (2,0)-- (2,2);\draw [line width=0.4pt,color=rvwvcq] (2,2)-- (3,2);\draw [line width=0.4pt,color=rvwvcq] (3,2)-- (3,0);\draw [line width=0.4pt,color=rvwvcq] (3,0)-- (2,0);\draw [line width=0.4pt,color=rvwvcq] (4,0)-- (4.000968269754668,1.3193028457766391);\draw [line width=0.4pt,color=rvwvcq] (4.000968269754668,1.3193028457766391)-- (5.833333333333333,0);\draw [line width=0.4pt,color=rvwvcq] (5.833333333333333,0)-- (4,0);\begin{scriptsize}\draw[color=rvwvcq] (0.5179143227665681,1.533321284758116) node {$P3$};\draw[color=rvwvcq] (2.517639510086457,1.0360634173229564) node {$P7$};\draw[color=rvwvcq] (4.629648731988478,0.47464324441229255) node {$P8$};\end{scriptsize}
+    \end{tikzpicture}\end{center}
+    
+    
+Hay muchos solvers comerciales que realizan BnB de manera muy eficiente (eligen buenos nodos activos para ramificar, hacen branching en buenas variables, etc.) y de hecho aplican varias heurísticas y otros algoritmos que aceleran aún más su ejecución. Por completitud, abajo anotamos una serie de instrucciones para ejecutar GUROBI sobre nuestro modelo (y dando directrices de modo que el orden de ramificado, etc. sea el mismo que nosotros usamos en el ejemplo anterior):
+
+    
+    	\begin{quote}
+    		\begin{lstlisting}
+modelonuevo= Model()
+@variable(modelonuevo, x>=0)
+@variable(modelonuevo, y>=0)
+@constraint(modelonuevo, rest1, 20y + 9x<=74)
+@constraint(modelonuevo, rest2, 25y+ 18x<=105)
+
+#función objetivo
+@objective(modelonuevo, Max, 3x+5y)
+
+#declaramos las variables como enteras
+set_integer(modelonuevo[:x])
+set_integer(modelonuevo[:y])
+
+#Le indicamos a JuMP que el solver a utilizar es Gurobi y eliminamos presolver
+set_optimizer(modelonuevo, Gurobi.Optimizer)
+set_optimizer_attributes(modelonuevo, "Presolve" => 0, "Heuristics"=> 0, "Cuts"=> 0, "Threads" => 1,
+ "BranchDir" => -1) 
+
+#declaramos atributos (branch primero en x luego en y)
+MOI.set(modelonuevo, Gurobi.VariableAttribute("BranchPriority"), x, 20)  
+MOI.set(modelonuevo, Gurobi.VariableAttribute("BranchPriority"), y, 1)  
+
+#resolver
+optimize!(modelonuevo)
+\end{lstlisting}
+\vspace{-10pt}
+Esto produce:
+\vspace{-10pt}
+\begin{lstlisting}[backgroundcolor=\color{light_gray}]
+Academic license - for non-commercial use only
+Gurobi Optimizer version 9.0.1 build v9.0.1rc0 (win64)
+Optimize a model with 2 rows, 2 columns and 4 nonzeros
+Model fingerprint: 0x71254e4e
+Variable types: 0 continuous, 2 integer (0 binary)
+Coefficient statistics:
+  Matrix range     [9e+00, 3e+01]
+  Objective range  [3e+00, 5e+00]
+  Bounds range     [0e+00, 0e+00]
+  RHS range        [7e+01, 1e+02]
+Variable types: 0 continuous, 2 integer (0 binary)
+
+Root relaxation: objective 1.988889e+01, 2 iterations, 0.00 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0   19.88889    0    2          -   19.88889      -     -    0s
+     0     0   19.88889    0    2          -   19.88889      -     -    0s
+     0     2   19.80000    0    2          -   19.80000      -     -    0s
+*    1     1               1      18.0000000   19.80000  10.0%   2.0    0s
+*    2     0               1      19.0000000   19.00000  0.00%   2.0    0s
+
+
+Explored 3 nodes (6 simplex iterations) in 0.03 seconds
+Thread count was 1 (of 8 available processors)
+
+Solution count 2: 19 18
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 1.900000000000e+01, best bound 1.900000000000e+01, gap 0.0000%
+		\end{lstlisting}
+    	\end{quote}
+    
+   Gurobi realiza un árbol de BnB parecido al nuestro, pero es más eficiente en su implementación: cada vez que un nodo se ramifica en 2 y uno de ellos es infactible o dominado, continúa bajando por el árbol (es decir no crea nuestros nodos 1, 4, 2, 6, 8) hasta que deja un par de nodos activos. Otros solvers realizan otras variantes de BnB.
+   
+    
+    
+    \section{Algunas consideraciones para hacer BnB eficiente}
+    
+    \paragraph{Resolución de relajación lineal en cada nodo.}
+    Un detalle interesante a considerar es que en general el PL $(P)$ asociado a un nodo es muy similar al PL asociado al de su padre (son solo restricciones extras) por lo que podemos resolver $(P)$ de manera más eficiente a partir de la solución óptima del padre y mediante \textbf{simplex dual}.
+    
+    \paragraph{Selección de nodos activos}
+    El rendimiento de BnB depende fuertemente de la manera como se elige el nodo activo para ramificar (cuando hay varios de estos). Aquí hay dos objetivos que compiten: (1) Encontrar rápidamente un incumbente (2) Acotar rápidamente la cota $B_0$ del nodo raíz.
+    
+    Algunas estrategias estándar para seleccionar nodos son:
+    \begin{enumerate}
+    	\item Búsqueda en profundidad (DFS). 
+    	\emph{Ventajas}: apunta a encontrar un incumbente rápidamente con pocos nodos. 
+    	\emph{Desventajas}: puede explorar un área \emph{mala} del árbol con nodos sin buenas soluciones.
+    	\item Desarrollar el mejor nodo (best-node). Consiste en buscar el nodo activo $(M)$ cuya cota $(B)$ es la más alta posible. 
+    	\emph{Ventajas}: Las mejores soluciones integrales se deben encontrar en nodos con cotas altas, por lo que esta estrategia apunta a encontrar rápidamente buenas soluciones (o acotar rápidamente $B_0$)
+    	\emph{Desventajas}: Muchos nodos deben permanecer activos por largo tiempo, provocando que se deba usar una gran cantidad de memoria.
+    \end{enumerate}
+    Hay otras estrategias más avanzadas que involucran crear un estimador de cuanto debería \emph{degradarse} el valor de la cota $B$ en un nodo dado de acuerdo a su PL y luego elegir aquel con mayor valor estimado para la cota. En la práctica se ocupan estrategias mixtas como por ejemplo hacer DFS hasta que se encuentre un incumbente y luego seleccionar mejor nodo. Gurobi hace esto automáticamente (Cplex permite un poco más de control respecto a esto).
+    
+    
+    
+    \paragraph{Selección de variable a ramificar} (Ver por ejemplo Parámetro \href{https://www.gurobi.com/documentation/9.0/refman/varbranch.html#parameter:VarBranch}{VarBranch de Gurobi}
+    
+    Puede que la solución fraccional $\bar{x}$ del nodo que ha sido elegido tenga múltiples variables fraccionales. Una forma estándar es elegir la variable $x_j$ con $j\in E$ más fraccional (la más cercana a 0.5).
+    Otra alternativa llamada \emph{strong branching} involucra resolver pequeñas variaciones del PL original para determinar cual es la variable $x_j$ cuya ramificación produce el mayor decrecimiento en la cota superior $B$ del nodo a ramificar. Esta solución es más cara (involucra resolver un número de PL proporcional a las variables fraccionales) pero en la práctica resulta ser útil.
+    
+    \paragraph{Criterios de término}(Ver \href{https://www.gurobi.com/documentation/9.0/refman/parameters.html}{lista de parámetros de Gurobi})
+    
+    BnB puede tomar un tiempo prohibitivo pero podemos detener el proceso en cualquier momento y, si para entonces tenemos un incumbente, podemos retornar una solución factible y una estimación (GAP relativo) de cuan cerca de ser óptima es la solución. Criterios típicos de término temprano incluyen detener la ejecución si:
+    El tiempo de reloj excede un máximo establecido, si el número de nodos procesados excede un máximo, si la memoria necesaria excede un umbral, si el gap relativo o si el gap absoluto ($B - z^*$) es menor que una tolerancia preestablecida.
+    
+    \paragraph{Heurísticas}
+    En muchos casos es posible determinar buenas soluciones factibles (incumbentes) en un nodo cualquiera mediante heurísticas. Por ejemplo, podemos aplicar un algoritmo simple (como glotón o programación dinámica) para encontrar una buena solución factible antes de comenzar BnB. De este modo muchas ramas pueden ser podadas rápidamente por cota al estar dominadas. Otras heurísticas típicas pueden ser usadas en cada nodo. Por ejemplo, redondear (de alguna forma inteligente) una buena solución fraccional puede producir una buena solución factible o bien, usar las soluciones enteras que podrían aparecer mientras se ejecuta SIMPLEX en un nodo. Esto se puede incorporar fácilmente al algoritmo genérico de BnB que ya vimos.
+    
+    \paragraph{Usar presolver}
+    
+    El presolver típicamente es capaz de reducir la complejidad del modelo de manera automática (eliminando variables, restricciones, cotas innecesarias, etc.). El presolver de Gurobi está activado por defecto.
+    
+	\paragraph{Usar Cortes (branch and cut)}
+    
+    En realidad BnB no es un buen método por si solo. Lo ideal es mejorar la formulación en cada nodo. Esto se puede hacer automáticamente mediante el uso de planos cortantes, como lo veremos más adelante.
+    
+\end{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
