@@ -12,28 +12,40 @@
 \begin{document}
 \shorthandoff{>}\shorthandoff{<}
 %Encabezado
+
+% notas al margen
+\NAM{
+\newgeometry{left=1.5cm,top=1.5cm,right=1.5cm, bottom=1.5cm,letterpaper, includeheadfoot, outer=5cm, heightrounded, marginparwidth=4cm, marginparsep=-2.5cm}
+\savegeometry{notas-al-margen}
+}{}
+%fin de notas al margen
+
 \fancyhead[L]{Facultad de Ciencias Físicas y Matemáticas}
 \fancyhead[R]{Universidad de Chile}
 \vspace*{-1.2 cm}
-\begin{minipage}{0.6\textwidth}
+% notas al margen
+\NAM{\begin{minipage}{0.7\textwidth}}{0.6\textwidth}
 \begin{flushleft}
-\hspace*{-0.5cm}\textbf{MA4702. Programación Lineal Mixta. 2018.}\\
+\hspace*{-0.5cm}\textbf{MA4702. Programación Lineal Mixta. 2020.}\\
 \hspace*{-0.5cm}\textbf{Profesor:} José Soto\\
-%\hspace*{-0.5cm}\textbf{Escriba(s):} \sca, \scb~y \scc.\\
+% \hspace*{-0.5cm}\textbf{Escriba(s):} \sca, \scb ~y \scc.\\
 \hspace*{-0.5cm}\textbf{Fecha:} \fecha.
 \end{flushleft}
 \end{minipage}
-\begin{minipage}{0.36\textwidth}
+% notas al margen
+\NAM{\begin{minipage}{0.4\textwidth}}{\begin{minipage}{0.36\textwidth}}
 \begin{flushright}
-\includegraphics[scale=0.15]{fcfm}
+% notas al margen
+\NAM{\hspace*{4.3cm}\includegraphics[scale=0.15]{fcfm}}{\includegraphics[scale=0.15]{fcfm}}
 \end{flushright}
 \end{minipage}
 \bigskip
-%Fin encabezado
 
 \begin{center}
 \LARGE\textbf{Cátedra \catnum}
 \end{center}
+
+%Fin encabezado
 
 \section{Descripción de Branch and Bound}
 
