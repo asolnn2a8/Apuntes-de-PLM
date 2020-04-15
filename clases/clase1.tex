@@ -37,7 +37,7 @@ Un \emph{problema de optimización} $\mathcal{P}$ es un conjunto de \emph{instan
 \end{defi}
 Usualmente las instancias se describen de manera implicita o compacta.
 
-\begin{eje}[Árbol cubridor de peso mínimo -- minimum spanning tree, MST]
+\begin{eje}[Árbol cubridor de peso mínimo -- minimum spanning tree, MST] 
 Cada instancia del problema (MST) se describe de manera compacta indicando un grafo $G=(V,E)$ con pesos en las aristas $w\colon E \to \RR_+$. De estos datos uno puede deducir el conjunto $S$ de todos los árboles cubridores de $G$, y para cada árbol $T\in \mathcal{S}$, el valor de la función es la suma de los pesos de las aristas $w(T)=\sum_{e\in E[T]}w(e)$. El objetivo es minimizar la función de peso $w$:
 \[ \min\limits_{T\in S}~  w(T) \]
 \end{eje}
@@ -224,7 +224,7 @@ Modificar SP-Conector para que incluso cuando $\ell$ pueda tomar valores nulos s
 Es importante notar que la cantidad de restricciones crece de manera exponencial con el tamaño, luego, si bien el modelo soluciona el problema, en la practica el tiempo en que se ejecute el programa va a ser grande.
 
 Por lo anterior es conveniente plantear el problema de otra manera. 
-\NAM{\newpage}{}
+\NAM{}{\newpage}
     \item \textbf{(Mediante flujos)} Recordemos la definición de flujo: 
     
     
