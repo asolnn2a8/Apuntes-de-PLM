@@ -170,7 +170,10 @@ $$\begin{aligned}
     
     Discutiremos luego criterios de terminación temprana. Pero si en algún minuto necesitamos terminar, entonces observamos que el valor óptimo de $M_0$ siempre está en $[z^*, B(M_0)]$. La razón $\frac{B(M_0)-z^*}{z^*}$ se suele llamar el \textbf{GAP} de resolución (en dicho momento). Hagamos un ejemplo concreto de BnB usando solo branchings por variables.    
     
-    \begin{minipage}{0.3\textwidth}
+    \NAM{
+    \begin{center}
+    }{}
+    \begin{minipage}{0.2\textwidth}
     \begin{align*}
     M_0&:\quad 	\max 3x+5y\\
     S_0&:\quad \begin{cases}
@@ -180,10 +183,16 @@ $$\begin{aligned}
     x,y&\in \ZZ
     \end{cases}
     \end{align*}
-    	\end{minipage}		
+    \end{minipage}
+    \NAM{
+    \end{center}
+    }{}
+    \NAM{
+    \begin{center}
+    \begin{minipage}{0.8\textwidth}
+    }{
     \begin{minipage}{0.7\textwidth}
-    
-
+    }
  	\begin{lstlisting}[escapechar=Ñ]
 modelo= Model()
 set_optimizer(modelo, Gurobi.Optimizer)
@@ -203,10 +212,15 @@ println("z=",objective_value(modelo)," x=",
   value(modelo[:x])," y=", value(modelo[:y]))
 
 Ñ\bl{z=19.799999999999997 x=2.0 y=2.76}Ñ
-    	\end{lstlisting}
+    \end{lstlisting}
+    \NAM{
     \end{minipage}
+    \end{center}
+    }{
+    \end{minipage}
+    }
     
-        Al resolver la relajación lineal anterior (por ejemplo con el solver \GUROBI mediante \JULIA, a la derecha), encontramos que el óptimo del PL asociado es $(x_0,y_0)\approx (1.8518, 2.866)$, $z\approx 19.888$ que no es entero. Luego el nodo raíz $M_0$ queda activo, con cota superior $B=19.888$.
+        Al resolver la relajación lineal anterior (por ejemplo con el solver \GUROBI mediante \JULIA,\NAM{abajo}{a la derecha}), encontramos que el óptimo del PL asociado es $(x_0,y_0)\approx (1.8518, 2.866)$, $z\approx 19.888$ que no es entero. Luego el nodo raíz $M_0$ queda activo, con cota superior $B=19.888$.
         
     Estudiemos el árbol que BnB produce, por simplicidad anotemos en cada nodo además el punto fraccional óptimo de la relajación. Escribamos además sobre la raíz los datos actuales del incumbente.
     \medskip
@@ -250,9 +264,9 @@ println("z=",objective_value(modelo)," x=",
     	\draw[color=rvwvcq] (1.9619088209252804,1.7019774465657151) node {$P0$};\end{scriptsize}\end{tikzpicture}
     \end{minipage}
     
-    Como ambas coordenadas de $(x_0,y_0)$ son fraccionales \textbf{podemos elegir una}, digamos $x$ y \textbf{ramificar} de acuerdo a dicha variable, creando dos problemas $M_1$ y $M_2$, con conjuntos factibles $S_1=S_0\cap \{x\leq \lfloor x_0\rfloor\}$ y $S_1=S_0\cap \{x\geq \lceil x_0\rceil\}$. 
+    Como ambas coordenadas de $(x_0,y_0)$ son fraccionales \textbf{podemos elegir una}, digamos $x$ y \textbf{ramificar} de acuerdo a dicha variable, creando dos problemas $M_1$ y $M_2$, con conjuntos factibles \NAM{$$S_1=S_0\cap \{x\leq \lfloor x_0\rfloor\} \text{ y } S_1=S_0\cap \{x\geq \lceil x_0\rceil\}$$\\[-30pt]}{$S_1=S_0\cap \{x\leq \lfloor x_0\rfloor\}$ y $S_1=S_0\cap \{x\geq \lceil x_0\rceil\}$.} 
     
-    
+    \NAM{\begin{center}}{}
     \begin{minipage}{0.35\textwidth}
     	\begin{align*}
     	M_1&:\quad 	\max 3x+5y & M_2&:\quad 	\max 3x+5y\\ 
@@ -268,10 +282,15 @@ println("z=",objective_value(modelo)," x=",
     	x,y&\geq 0\\
     	x,y&\in \ZZ\end{cases}
     	\end{align*}
-    \end{minipage}		
+    \end{minipage}
+    \NAM{\end{center}}{}
+    \NAM{
+    \begin{center}
+    \begin{minipage}{0.8\textwidth}
+    }{
     \begin{minipage}{0.65\textwidth}
-
-    	\begin{lstlisting}[escapechar=Ñ]
+    }
+    \begin{lstlisting}[escapechar=Ñ]
 #modelo M1
 set_upper_bound(modelo[:x], 1) 
 optimize!(modelo)
@@ -298,9 +317,13 @@ println("z=",objective_value(modelo),
  " y=", value(modelo[:y]))
 
 Ñ\bl{z=19.799999999999997 x=2.0 y=2.76}Ñ
-    	\end{lstlisting}
-
+    \end{lstlisting}
+    \NAM{
     \end{minipage}
+    \end{center}
+    }{
+    \end{minipage}
+    }
     
     La solución óptima de la relajación de  $M_1$ es $(x_1,y_1)=(1;3.25)$ de valor $z_1=19.25$, y la solución óptima de la relajación de $M_2$ es $(x_2,y_2)=(2;2.76)$ de valor $z_2=19.8$. Luego ambos nodos se crean activos. Más aún la cota de $M_0$ se actualiza a $\max\{19.25,19.8\}=19.8$. Por lo que el nuevo árbol de BnB (y su diagrama actual) se ven asi:
     	
@@ -351,6 +374,7 @@ println("z=",objective_value(modelo),
     
     Resulta útil anotar en las aristas del árbol que restricciones hemos agregado en cada problema. Ahora hay 2 nodos activos en el árbol y podemos elegir cualquiera para ramificar. La solución $(x_1,y_1)$ tiene variable $y$ fraccional. Ramifiquemos $M_1$ en dos problemas $M_3$ y $M_4$ de acuerdo a si $y\leq 3$ o si $y\geq 4$. Obtenemos:
     
+    \NAM{\begin{center}}{}
     \begin{minipage}{0.4\textwidth}
     	\begin{align*}
     	M_3&:\quad 	\max 3x+5y & M_4&:\quad 	\max 3x+5y\\ 
@@ -368,9 +392,15 @@ println("z=",objective_value(modelo),
     	x,y&\geq 0\\
     	x,y&\in \ZZ\end{cases}
     	\end{align*}
-    \end{minipage}		
+    \end{minipage}
+    \NAM{\end{center}}{}
+    \NAM{
+    \begin{center}
+    \begin{minipage}{0.8\textwidth}
+    }{
     \begin{minipage}{0.6\textwidth}
-    		\begin{lstlisting}[escapechar=Ñ]
+    }
+    \begin{lstlisting}[escapechar=Ñ]
 #Modelo M3
 set_lower_bound(modelo[:x],0)
 set_upper_bound(modelo[:x],1) 
@@ -393,12 +423,18 @@ optimize!(modelo)
 termination_status(modelo)
 
 Ñ\bl{INFEASIBLE::TerminationStatusCode = 2}Ñ
-    		\end{lstlisting}
+    \end{lstlisting}
+    \NAM{
     \end{minipage}
+    \end{center}
+    }{
+    \end{minipage}
+    }
     
     La solución de la relajación de $M_3$ es entera $(x_3,y_3)=(1,2)$ con $z_3=18$. Por lo que $M_3$ se declara entero y además, $(x_3,y_3)$ se transforma en incumbente (actualizando también $z^*$). 
     Mientras tanto la relajación de $M_4$ es infactible, por lo que su cota es $-\infty$. Actualizamos la cota superior de $M_1$ a $18$, mientras que la cota de $M_0$ se mantiene.
     
+    \NAM{\newpage}{}
     Nuestro \textbf{árbol de BnB} se ve actualmente así. 
     
     \begin{minipage}{.5\textwidth}
@@ -447,6 +483,7 @@ termination_status(modelo)
     
     Como tenemos incumbente y cota, el \textbf{gap} de nuestra solución actual  es $\frac{19.8-18}{18}=\frac{1.8}{18}=0.1=10\%$. Solo queda $M_2$ activo, lo ramificamos en $M_5$ y $M_6$, donde $y\leq$ o $y\geq3$ respectivamente. 
     
+    \NAM{\begin{center}}{}
     \begin{minipage}{0.4\textwidth}
     	\begin{align*}
     	M_5&:\quad 	\max 3x+5y & M_6&:\quad 	\max 3x+5y\\ 
@@ -464,9 +501,15 @@ termination_status(modelo)
     	x,y&\geq 0\\
     	x,y&\in \ZZ\end{cases}
     	\end{align*}
-    \end{minipage}		
+    \end{minipage}
+    \NAM{\end{center}}{}
+    \NAM{
+    \begin{center}
+    \begin{minipage}{0.8\textwidth}
+    }{
     \begin{minipage}{0.6\textwidth}
-    		\begin{lstlisting}[escapechar=Ñ]
+    }
+    \begin{lstlisting}[escapechar=Ñ]
 #Modelo M5
 set_lower_bound(modelo[:x],2)
 delete_upper_bound(modelo[:x])
@@ -490,8 +533,14 @@ optimize!(modelo)
 termination_status(modelo)
 
 Ñ\bl{INFEASIBLE::TerminationStatusCode = 2}Ñ
-\end{lstlisting}
+    \end{lstlisting}
+    \NAM{
     \end{minipage}
+    \end{center}
+    }{
+    \end{minipage}
+    }
+    
     
     Notamos que $M_6$ es infactible, y la relajación de $M_5$ tiene solución $(3.0555;2)$ con valor $z_5=19.1667$ por lo que queda activo (y podemos actualizar las cotas). Actualizamos el árbol BnB como sigue:
     	
@@ -539,6 +588,7 @@ termination_status(modelo)
     
     Nuestro gap mejoró a $(19.1667-18)/18=6.48\%$. Nuevamente tenemos solo un nodo activo, $M_5$. Lo ramificamos en $x$, definiendo los problemas $M_7$ y $M_8$ con $x\leq 3$ y $x\geq 4$ respectivamente:
     
+    \NAM{\begin{center}}{}
     \begin{minipage}{0.4\textwidth}
     	\begin{align*}
     	M_7&:\quad 	\max 3x+5y & M_8&:\quad 	\max 3x+5y\\ 
@@ -557,10 +607,16 @@ termination_status(modelo)
     	x,y&\geq 0\\
     	x,y&\in \ZZ\end{cases}
     	\end{align*}
-    \end{minipage}		
+    \end{minipage}
+    \NAM{\end{center}}{}
+    \NAM{
+    \begin{center}
+    \begin{minipage}{0.8\textwidth}
+    }{
     \begin{minipage}{0.6\textwidth}
-    	\begin{quote}
-    		\begin{lstlisting}[escapechar=Ñ]
+    }
+    \begin{quote}
+    \begin{lstlisting}[escapechar=Ñ]
 #Modelo M7
 set_lower_bound(modelo[:x],0)
 set_upper_bound(modelo[:x],3)
@@ -590,9 +646,15 @@ println("z=",objective_value(modelo),
  " y=", value(modelo[:y]))
  
 Ñ\bl{z=18.6 x=4.0 y=1.32}Ñ
-    		\end{lstlisting}
-    	\end{quote}
+    \end{lstlisting}
+    \end{quote}
+    \NAM{
     \end{minipage}
+    \end{center}
+    }{
+    \end{minipage}
+    }
+    
     
     
     
@@ -651,7 +713,6 @@ println("z=",objective_value(modelo),
     
 Hay muchos solvers comerciales que realizan BnB de manera muy eficiente (eligen buenos nodos activos para ramificar, hacen branching en buenas variables, etc.) y de hecho aplican varias heurísticas y otros algoritmos que aceleran aún más su ejecución. Por completitud, abajo anotamos una serie de instrucciones para ejecutar GUROBI sobre nuestro modelo (y dando directrices de modo que el orden de ramificado, etc. sea el mismo que nosotros usamos en el ejemplo anterior):
 
-    
     	\begin{quote}
     		\begin{lstlisting}
 modelonuevo= Model()
@@ -669,8 +730,8 @@ set_integer(modelonuevo[:y])
 
 #Le indicamos a JuMP que el solver a utilizar es Gurobi y eliminamos presolver
 set_optimizer(modelonuevo, Gurobi.Optimizer)
-set_optimizer_attributes(modelonuevo, "Presolve" => 0, "Heuristics"=> 0, "Cuts"=> 0, "Threads" => 1,
- "BranchDir" => -1) 
+set_optimizer_attributes(modelonuevo, "Presolve" => 0, "Heuristics"=> 0, 
+ "Cuts"=> 0, "Threads" => 1, "BranchDir" => -1) 
 
 #declaramos atributos (branch primero en x luego en y)
 MOI.set(modelonuevo, Gurobi.VariableAttribute("BranchPriority"), x, 20)  
