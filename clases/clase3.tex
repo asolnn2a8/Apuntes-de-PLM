@@ -62,13 +62,22 @@ Sea $\{S_1,\dots, S_k\}$ una partición del conjunto factible $S$ de un problema
     
     En lo que sigue nos enfocaremos en PLM de la forma    
 $$\begin{aligned}
-    \qquad (M)&\quad \max c^Tx\\
+    \qquad (M)&\quad \max c^Tx \\
     S&\colon \begin{cases}
     Ax &\leq b\\
-    x&\in \ZZ^E\times \RR^C
+    x &\in \ZZ^E\times \RR^C
     \end{cases}\quad
     \end{aligned}$$\\[5pt]
     donde $A$, $b$, $c$ son racionales. Llamemos $P=\{x\in \RR^{E\times C}, Ax\leq b\}$ a la relajación lineal natural de $S$, luego $S \subseteq P.$  Como los datos son racionales tenemos que el programa lineal relajado 
+    \NAM{
+    $$\begin{aligned}
+        \qquad (L)&\quad \max c^Tx\\
+        P&\colon \begin{cases}
+        Ax &\leq b\\
+        x&\in \RR^{E\cup C}
+        \end{cases}\quad
+        \end{aligned}$$\\[-20pt]
+    }{
     $\begin{aligned}
         \qquad (L)&\quad \max c^Tx\\
         P&\colon \begin{cases}
@@ -76,6 +85,7 @@ $$\begin{aligned}
         x&\in \RR^{E\cup C}
         \end{cases}\quad
         \end{aligned}$\\[5pt]
+    }
         
     es o bien \textbf{infactible}, o bien \textbf{factible no acotado} o bien \textbf{factible acotado} con solución óptima $\bar{x}\in P$ racional. En este caso llamamos $\bar{z}=c^T\bar{x}$ a su valor.
     
