@@ -6,6 +6,7 @@ También está destinado a agregar notas al margen. Esto se puede lograr modific
 - `\def\notasalmargen{1}` para incluir notas al margen.
 
 ## Clases
+- Las clases concatenadas se pueden encontrar [aqui](./pdfs/Apuntes_de_PLM.pdf)
 - La clase 1 se puede encontrar en formato [normal](./pdfs/clase01.pdf) o formato de [notas al margen](./pdfs/clase01NM.pdf)
 - La clase 2 se puede encontrar en formato [normal](./pdfs/clase02.pdf) o formato de [notas al margen](./pdfs/clase02NM.pdf)
 - La clase 3 se puede encontrar en formato [normal](./pdfs/clase03.pdf) o formato de [notas al margen](./pdfs/clase03NM.pdf)
