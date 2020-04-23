@@ -437,6 +437,9 @@ termination_status(modelo)
     \NAM{\newpage}{}
     Nuestro \textbf{árbol de BnB} se ve actualmente así. 
     
+    \NAM{
+    \begin{center}
+    }{}
     \begin{minipage}{.5\textwidth}
     \begin{center}\tikzset{%
     	>=stealth,
@@ -473,6 +476,12 @@ termination_status(modelo)
     	\end{forest}
     \end{center}
     \end{minipage}
+    \NAM{
+    \end{center}
+    }{}
+    \NAM{
+    \begin{center}
+    }{}
     \begin{minipage}{.5\textwidth}
     	\definecolor{qqttcc}{rgb}{0,0.2,0.8}\definecolor{rvwvcq}{rgb}{0.08235294117647059,0.396078431372549,0.7529411764705882}\definecolor{wrwrwr}{rgb}{0.3803921568627451,0.3803921568627451,0.3803921568627451}\definecolor{ffqqqq}{rgb}{1,0,0}\definecolor{qqqqff}{rgb}{0,0,1}\definecolor{cqcqcq}{rgb}{0.7529411764705882,0.7529411764705882,0.7529411764705882}\begin{tikzpicture}[line cap=round,line join=round,>=triangle 45,x=1cm,y=1cm]\draw [color=cqcqcq,, xstep=1cm,ystep=1cm] (-0.53007,-0.5733410783542761) grid (6.89137,4.730742840954085);\draw[->,color=black] (0,0) -- (6.89137,0);\foreach \x in {,1,2,3,4,5,6}\draw[shift={(\x,0)},color=black] (0pt,2pt) -- (0pt,-2pt) node[below] {\footnotesize $\x$};\draw[->,color=black] (0,0) -- (0,4.730742840954085);\foreach \y in {,1,2,3,4}\draw[shift={(0,\y)},color=black] (2pt,0pt) -- (-2pt,0pt) node[left] {\footnotesize $\y$};\draw[color=black] (0pt,-10pt) node[right] {\footnotesize $0$};\clip(-0.53007,-0.5733410783542761) rectangle (6.89137,4.730742840954085);\fill[line width=0.4pt,color=rvwvcq,fill=rvwvcq,fill opacity=0.10000000149011612] (2,0) -- (1.9947790995869785,2.7637590482973757) -- (5.833333333333333,0) -- cycle;\fill[line width=0.4pt,color=rvwvcq,fill=rvwvcq,fill opacity=0.10000000149011612] (0,0) -- (0,3) -- (1,3) -- (1,0) -- cycle;\draw [line width=0.4pt,color=qqqqff,domain=-0.53007:6.89137] plot(\x,{(--370-45*\x)/100});\draw [line width=0.4pt,color=ffqqqq,domain=-0.53007:6.89137] plot(\x,{(--420-72*\x)/100});\draw [->,line width=0.8pt,dotted] (0,0) -- (0.6,1);\draw [line width=0.4pt,color=rvwvcq] (2,0)-- (1.9947790995869785,2.7637590482973757);\draw [line width=0.4pt,color=rvwvcq] (1.9947790995869785,2.7637590482973757)-- (5.833333333333333,0);\draw [line width=0.4pt,color=rvwvcq] (5.833333333333333,0)-- (2,0);\draw [line width=0.4pt,color=rvwvcq] (0,0)-- (0,3);\draw [line width=0.4pt,color=rvwvcq] (0,3)-- (1,3);\draw [line width=0.4pt,color=rvwvcq] (1,3)-- (1,0);\draw [line width=0.4pt,color=rvwvcq] (1,0)-- (0,0);\begin{scriptsize}
     	\draw[color=rvwvcq] (3.2929340345821334,0.9558605354785777) node {$P2$};
@@ -480,7 +489,9 @@ termination_status(modelo)
     	\draw [color=qqttcc](2.95073507204611,3.3672938495996174) node[anchor=north west] {$P4=\emptyset$};
     	\end{scriptsize}\end{tikzpicture}
     \end{minipage}
-    
+    \NAM{
+    \end{center}
+    }{}
     Como tenemos incumbente y cota, el \textbf{gap} de nuestra solución actual  es $\frac{19.8-18}{18}=\frac{1.8}{18}=0.1=10\%$. Solo queda $M_2$ activo, lo ramificamos en $M_5$ y $M_6$, donde $y\leq$ o $y\geq3$ respectivamente. 
     
     \NAM{\begin{center}}{}
@@ -743,7 +754,7 @@ optimize!(modelonuevo)
 \vspace{-10pt}
 Esto produce:
 \vspace{-10pt}
-\begin{lstlisting}[backgroundcolor=\color{light_gray}]
+\begin{lstlisting}
 Academic license - for non-commercial use only
 Gurobi Optimizer version 9.0.1 build v9.0.1rc0 (win64)
 Optimize a model with 2 rows, 2 columns and 4 nonzeros
