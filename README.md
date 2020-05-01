@@ -1,5 +1,6 @@
 # Apuntes-de-PLM
-Repositorio destinado a recolectar los apuntes de las cátedras de PLM
+Repositorio destinado a recolectar los apuntes de las cátedras de PLM.
+En caso de que el GitHub no esté actualizado, se puede encontrar el LaTeX [aqui](https://www.overleaf.com/5798785323ktgjfxtmfvrb)
 
 También está destinado a agregar notas al margen. Esto se puede lograr modificando la linea 4 de `main.tex`.
 - `\def\notasalmargen{0}` para no incluir notas al margen.
