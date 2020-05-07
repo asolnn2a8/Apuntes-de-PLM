@@ -1,0 +1,294 @@
+%!TEX root = ../notas_de_clase.tex
+
+\NAM{
+\newgeometry{left=1.5cm,top=1.5cm,right=1.5cm, bottom=1.5cm,letterpaper, includeheadfoot, outer=5cm, heightrounded, marginparwidth=4cm, marginparsep=-2.5cm}
+\savegeometry{notas-al-margen}
+}{}
+
+% \begin{document}
+\setlength{\headsep}{10pt}
+\noindent
+\textbf{Curso: MA4702 - Programación Lineal Mixta.} \\
+\textbf{Profesor:} José Soto. \\
+\textbf{Escriba(s): }Pablo Uribe y Tomás Laengle.\\
+\textbf{Fecha: }6 de abril de 2020.
+\begin{center}
+    \huge\textbf{Cátedra 4}
+\end{center}
+\vspace{5pt}
+%=======================================================================================
+En esta cátedra, se verán tres temas importantes y la relación de los primeros dos. Se comenzará hablando del método de Fourier-Motzkin y de las Proyecciones para luego pasar a la relación entre los dos. Finalmente se analiza muy por encima el Lema de Farkas.
+\section{Método de Fourier-Motzkin}
+La idea de este método es que a partir de un poliedro $$P=P(A,b)=\{x \in \R^n: Ax \le b\} \subseteq \R^n,$$
+generar un nuevo poliedro $P' \subseteq \R^{n-1}$ tal que 
+$$P \ne \emptyset \Longleftrightarrow P' \ne \emptyset.$$
+En otras palabras, eliminar la incógnita $x_n$ para verificar la factibilidad de un poliedro de $n$ variables a través de uno equivalente con $n-1$ variables. 
+
+También con este método es posible rescatar una solución para $P$ conociendo una de $Q$.\\
+
+\textbf{Recuerdo: } En Álgebra Lineal usábamos la eliminación Gausiana, que consiste en diagonalizar y despejar $x_n$.\\
+
+\noindent Un sistema como el siguiente
+\begin{equation*}
+\begin{matrix}
+    a_{11}x_1 +  a_{12}x_2 +  \ldots +  a_{1n}x_n & =  b_1 \\
+    a_{21}x_1 +  a_{21}x_1 +  \ldots +  a_{1n}x_n & =  b_2 \\
+                   \vdots                           & \vdots \\
+    a_{m1}x_1 +  a_{m2}x_2 +  \ldots +  a_{mn}x_n & =  b_m
+\end{matrix}
+\end{equation*}
+ Se diagonalizaba para que quede así
+\begin{equation*}
+ \begin{matrix}
+    a'_{11}x_1& + & a'_{12}x_2& + & \ldots& + & a'_{1n}x_n = & b'_1 \\
+              &  & a'_{21}x_1& + & \ldots& + & a'_{1n}x_n = & b'_2 \\
+              &   &    &   &       &   &       &       \vdots \\
+              &  & &  & &  & a'_{mn}x_n = & b'_m
+\end{matrix}   
+\end{equation*}
+Para finalmente obtener que $x_n= \frac{b'_m}{a'_{mn}x_n}$ y reemplazar. De esta forma obtenemos un nuevo sistema con una variable menos. El problema de este método es que es un poco lento y además nos permite conocer el valor de una variable, que no es algo que necesitemos.\\
+
+¿Hay otra manera sin diagonalizar?\\
+
+\noindent La otra alternativa es despejar $x_n$ en cada igualdad que la involucre $(\text{donde } a_{in} \ne 0$). De la forma siguiente:\\
+
+\noindent El mismo sistema anterior 
+\begin{equation*}
+\begin{matrix}
+    a_{11}x_1 +  a_{12}x_2 +  \ldots +  a_{1n}x_n = & b_1 \\
+    a_{21}x_1 +  a_{21}x_1 +  \ldots +  a_{1n}x_n = & b_2 \\
+                  \ddots                           & \vdots \\
+    a_{m1}x_ +  a_{m2}x_2 +  \ldots +  a_{mn}x_n = & b_m
+\end{matrix}
+\end{equation*}
+Se despeja de la siguiente manera
+\begin{equation*}
+\begin{matrix}
+    x_n = &(b_1  - a_{11}x_1 - \ldots - a_{1n-1}x_{n-1})/ a_{1n} \\
+    x_n = & (b_2  - a_{21}x_1 - \ldots - a_{2n-1}x_{n-1})/ a_{2n} \\
+    \vdots&     \vdots                                  \\
+    x_n = & (b_m  - a_{m1}x_1 - \ldots - a_{mn-1}x_{n-1})/ a_{mn} \\
+\end{matrix}
+\end{equation*}
+De esta forma, se obtiene un sistema de $n-1$ variables $\ldots$
+\begin{equation*}
+   \begin{array}{c}
+     (b_i-a_{i1}x_1-\ldots-a_{i(n-1)}x_{(n-1)})/a_{in} = (b_j-a_{j1}x_1-\ldots-a_{j(n-1)}x_{(n-1)})/a_{jn}  \\
+     \forall i,j \in [m-1]: a_{in} \ne 0, a_{jn} \ne 0
+\end{array} 
+\end{equation*}
+
+¿Este nuevo sistema, será equivalente al anterior?.\\
+La respuesta es sí, pero cuidado. Para que sea completamente equivalente, necesitamos agregar las ecuaciones que no involucraban a $x_n$.
+
+¿Es posible recuperar el valor de $x_n$?.\\
+Claro que si, simplemente hay que reemplazar los valores de los coeficientes y de las variables obtenidas en cualquiera de las $m$ expresiones para $x_n$ que obtuvimos.
+
+¿Qué pasa con las desigualdades?.\\
+Este sistema no funciona tal cual para desigualdades, se pueden incorporar las desigualdades de una manera similar pero no necesariamente va a funcionar. La idea ahora es modificar este sistema para que funcione con desigualdades y que es efectivamente la idea de \emph{Fourier-Motzkin}. A continuación, procederemos a explicar esa modificación:\\
+
+Dado un sistema $Ax\le b$, llamaremos al vector de las primeras $n-1$ variables $\ox=(x_1,\ldots,x_{n-1})$. Si despejamos las desigualdades que \textbf{involucran} a $x_n$ obtendremos funciones que dependen del vector $\ox$, los coeficientes de la matriz $A$ y los coeficientes del lado derecho $b$. De esta manera:
+\begin{align*}
+    x_n \le f_i(\ox,A,b), & \qquad \forall i \in I_+\\
+    f_j(\ox,A,b) \le x_n, & \qquad \forall j \in I_-
+\end{align*}
+al unirlas obtendremos que 
+\begin{equation}
+    f_j(\ox,A,b) \le x_n \le f_i(\ox,A,b)   
+\end{equation}
+por lo tanto
+$$f_j(\ox,A,b) \le f_i(\ox,A,b), \qquad \forall (i,j) \in I_+ \times I_-.$$
+
+¿Es este sistema equivalente al anterior?\\
+En el caso que agreguemos las ecuaciones que no involucren a $x_n$ sería equivalente, ya que lo único que queda indefinido sería $x_n$ pero si escogemos un valor que cumpla $(1)$, el sistema funcionaría.
+\begin{teo}[Fourier-Motzkin Simple]
+Dados $A \in \mathbb{R}^{m \times n}, b \in \mathbb{R}^m$, existe $A' \in \mathbb{R}^{l \times (n-1)}, b' \in \mathbb{R}^l$ tales que
+$$Ax \le b \text{ tiene solución } \Longleftrightarrow A'x' \le b' \text{ tiene solución}.$$
+\end{teo}
+
+\noindent\textbf{Ejemplo Simple: }Supongamos que tenemos el sistema 
+\begin{align*}
+    2x_1+3x_2 \le 5\\
+    3x_1-4x_2 \le 9.
+\end{align*}
+Lo que buscamos es trasformar este sistema  en uno que solo tenga la variable $x_1$. Para eso, multiplicamos la primera ecuación por $\frac{1}{3}$ y la segunda por $\frac{1}{4}$. Dando como resultado:
+\begin{align*}
+        2x_1 + x_2 \le 5\\
+        3x_1 - x_2 \le 9.
+\end{align*}
+Lo que es equivalente a 
+\begin{align*}
+         x_2 \le & - 2x_1 + 5\\
+        3x_1 - 9  \le & x_2.
+\end{align*}
+De esta forma queda una especie de ``sándwitch'' para $x_2$ y la podemos sacar de las ecuaciones. Finalmente obtenemos que
+$$3x_1 - 9  \le - 2x_1 + 5$$
+y que la primera coordenada de los vectores multiplicadores es 
+$(\frac{1}{3},\frac{1}{4}).$
+
+\begin{teo}[Fourier-Motzkin Detalles]
+Dado $A \in \R^{m \times x}, b \in \R^m$, existen $l \le m + m^2$ vectores multiplicadores $y_1, \ldots, y_l \in \R^m$ tal que, si llamamos
+$Y =
+\left(
+    \begin{array}{c}
+         y_1^T\\
+         \vdots\\
+         y_l^T
+    \end{array}
+    \right),$ se tiene:
+\begin{enumerate}
+    \item $Y > 0$ y si $A, b$ son racionales, $Y$ es racional.
+    \item $Y A = (A'|0),$ es decir, la ultima columna de la matriz $Y A$ es 0.
+    \item para $b'=Yb$, se tiene $$Ax \le b \text{ tiene solución } \Longleftrightarrow A'x' \le b' \text{ tiene solución}.$$
+\end{enumerate}
+\end{teo}
+\textbf{Esquema demostración Fourier-Motzkin}
+\begin{enumerate}
+    \item Simplificación: dividir para que última columna de matriz (los coeficientes que acompañan a la variable $n$) esté en $\{+1, -1, 0\}$.
+    \item Clasificación de filas: $A''x \le b''$ equivale a:
+        \begin{align*}
+        a_i''^T\ox + x_n \le b_i'', & \qquad i \in I_+\\
+        a_j''^T\ox - x_n \le b_j'', & \qquad j \in I_-\\
+        a_k''^T\ox \le b_k'',       & \qquad k \in I_0\\
+        \end{align*}
+        donde $\ox=(x_1,\ldots,x_{n-1})$.
+    \item Combinando cada $i$ con cada $j$ se obtiene:
+        \begin{align}
+            a_j''^T\ox - b_j'' \le x_n \le b_i''-a_i''^T\ox, & \qquad (i,j) \in I_+ \times I_-\\
+            a_k''\ox \le b_k'', & \qquad k \in I_0.
+        \end{align}
+        que es equivalente al sistema original.
+    \item Eliminar $x_n$ juntando las desigualdades de $(2)$:
+        \begin{align*}
+            (a_j''+a_i'')^T\ox \le b_i'' + b_j'', & \qquad (i,j) \in I_+ \times I_-\\
+            a_k''^T\ox \le b_k'', & \qquad k \in I_0
+        \end{align*}
+        obteniendo $A'x\le b'$ (cada fila se obtuvo como combinación cónica de filas de $Ax\le b$).
+    \item $l = |I_+| \times |I_-| + |I_0| \le m^2 + m$.
+    \item Es fácil obtener expresiones para. los $y_1,\ldots,y_l$.
+    \item Si $Ax^*\le b,$ entonces $A'\ox^* \le b'$, donde $\ox^*=(x^*_1,\ldots,x^*_{n-1})$.
+    \item Si $A'x' \le b',$ cualquier $x=(x',x_n)$ satisface $Ax\le b$ con
+        \begin{equation}
+            x_n\in \left[ \max_{j\in I_-} a_j''^T x'-b_j''^T, \min_{i \in I_+} b_i''^T-a_i''^Tx'\right].
+        \end{equation}
+        Es importante notar que de la ecuación $(4)$ nos podemos devolver al sistema original y obtener un conjunto donde vive $x_n$.
+\end{enumerate}
+
+\large{\textbf{Observaciones:}}\\
+FM efectivamente permite \textbf{resolver} un PL de $n$ variables y $m$ restricciones, mediante la resolución de un PL de\\
+$n-1$ variables y $O(m^2)$ restricciones.\\
+$n-2$ variables y $O(m^4)$ restricciones.\\
+$\ldots 0$ variables y $O(m^{2^n})$ restricciones.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Proyecciones}
+
+\textbf{Recuerdo: } La proyección ortogonal de un conjunto $S \subseteq \mathbb{R}^n$ a un subespacio $V$ está dada por la función $\text{Proy}_{V}:\mathbb{R}^{n}\rightarrow V$, tal que
+$$\forall x \in \mathbb{R}^n: x-\text{Proy}_{V}(x)\bot V.$$
+De esta forma, la proyección ortogonal de $S$ en $V$ queda dada por la imagen de $S$ a través de la función: $\text{Proy}_{V}(S)$.\\
+
+Se puede probar que si $J \subseteq [n]$, entonces:
+\begin{align}
+    \text{Proy}_{\mathbb{R}^{J}}(S)= \{x\in \mathbb{R}^{J}: \exists y \in \mathbb{R}^{[n]\setminus J}: (x,y)\in S \}
+\end{align}
+\begin{teo}
+La proyección ortogonal de un poliedro es un poliedro.
+\end{teo}
+\textbf{Demostración:}
+Sin pérdida de generalidad podemos suponer que $V = \mathbb{R}^{J}$, con $J \subseteq [n]$. En efecto, para cualquier otro subespacio $V^{*}$ de misma dimensión existe una transformación lineal $T:V \rightarrow V^{*}$ que es isomorfismo. Añadiendo las dimensiones restantes, se puede construir a partir de $T$ un isomorfismo del espacio entero $T^{*}$ (asociando cada uno de los $[n]\setminus J$ vectores de la base restantes a los $[n]\setminus J$ vectores perpendiculares a $V^{*}$ en $\mathbb{R}^{n}$), correspondiente a un cambio de base (digamos de $\beta$ a $\beta^{*}$). Si denotamos 
+$$P= P(A,b) = \{x \in (\mathbb{R}^{n},\beta): Ax \leq b\}.$$
+al poliedro, y $M_{\beta,\beta^{*}}$ a la matriz de cambio de base, podemos expresar $P$ en la nueva base como:
+\begin{align*}
+    P = \{\bar{x} \in (\mathbb{R}^{n},\beta^{*}): AM_{\beta,\beta^{*}}^{-1}\bar{x} \leq b\}
+\end{align*}
+Es decir, en la nueva base $\beta^{*}$ el poliedro $P$ sigue siendo poliedro. Además, en $(\mathbb{R}^{n},\beta^{*})$ el subespacio $V^{*}$ es de la forma $\mathbb{R}^{J}$. Se puede asumir además que $V = \mathbb{R}^{n-1}$, de lo contrario, ordenando los ejes y aplicando inducción se llega a la dimensión deseada. Luego, de la demostración de Fourier-Motzkin:
+\begin{align}
+    (x,y) \in P(A,b)\Leftrightarrow x \in P(A',b')
+\end{align}
+Es decir, usando el resultado anterior se tiene que:
+Luego, de la demostración de Fourier-Motzkin:
+\begin{align}
+   \text{Proy}_{\mathbb{R}^{n-1}}(P) = P(A',b')
+\end{align}
+Con lo que se concluye el teorema.\\
+
+\textbf{Notación típica: }
+Si un poliedro $P$ tiene variables indexadas por vectores $(x,y,z,...)$ entonces llamamos $\text{Proy}_{x}(P)$ a la proyección de $P$ al subespacio de las variables $x$.\\
+
+\textbf{Recuerdo: }
+Para $S \subseteq \mathbb{R}^{n}$, recordamos que $p$ es combinación convexa de $S$ si existe una lista finita $s_{1},...,s_{k} \in S$ y coeficientes $\lambda_{1},...,\lambda_{k} \in [0,1]$, tales que $\sum_{i=1}^{k}\lambda_{i}=1$ y $p =\sum_{i=1}^{k}\lambda_{i}s_{i}$. Además, se le llama
+envoltura convexa de $S$ ($\text{conv}(S)$) al conjunto de todas sus combinaciones lineales convexas.
+\begin{teo}
+Sea $S \subseteq \mathbb{R}^{n}$ un conjunto finito. Entonces $\text{conv}(S)$ es un poliedro.
+\end{teo}
+\textbf{Demostración:}
+Sean $s_{1},...,s_{k}$ los elementos de $S$. Luego
+\begin{align}
+    \text{conv}(S)&=\{x \in \mathbb{R}^{n}:\exists \lambda \in \mathbb{R}_{+}^{k},\sum_{i=1}^{k}\lambda_{i}=1,x =\sum_{i=1}^{k}\lambda_{i}s_{i} \}\\
+    &=\text{Proy}_{x} \{(x,\lambda) \in \mathbb{R}^{n+k}:\sum_{i=1}^{k}\lambda_{i}=1,x =\sum_{i=1}^{k}\lambda_{i}s_{i}, \lambda \geq 0 \}
+\end{align}
+Dado que la proyección de un poliedro es poliedro, se concluye. 
+\section{Lema de Farkas}
+El lema de Farkas permite dar certificados explícitos para la infactibilidad de un sistema $Ax\leq b$.
+\newtheorem{lemm}{Lema}
+\begin{lemm}[Lema de Farkas]
+Sea $Ax\leq b$ un sistema en $\mathbb{R}^n$ con $m$ restricciones. Luego
+\begin{align*}
+   Ax\leq b \quad \text{es factible} &\Leftrightarrow \forall y \in \mathbb{R}^{m}:\left(y \geq 0, y^{T} A=0 \Longrightarrow y^{T} b \geq 0\right)\\
+   &\Leftrightarrow \text{El sistema:} \quad(y^{T} A=0, y \geq 0, y^{T} b<0)\quad \text{es infactible.}
+\end{align*}
+
+\end{lemm}
+\textbf{Demostración:}
+Se demuestran ambas direcciones por separado.\\
+\begin{itemize}
+    \item ($\Rightarrow$): Sea $y$ tal que $y\geq 0, y^{T} A=0$ y $x$ tal que $Ax \leq b$. Multiplicando por $y^T$ por la izquierda en ambos lados de la igualdad se obtiene: $0=y^{T}Ax\leq y^{T}b$, con lo que se concluye la desigualdad. 
+    \item ($\Leftarrow$): El sistema $A'x' \leq b'$ generado al aplicar el teorema de Fourier-Motzkin al eliminar todas las variables tiene lado izquierdo igual a $0$, y es tal que $Ax\leq b$ es factible si y sólo si $0\leq b'$. Veamos que es efectivamente el caso. En efecto, el sistema $0\leq b'$ se obtiene mediante combinaciones cónicas de las restricciones de $Ax\leq b$, es decir, la $i$-ésima fila de $0\leq b'$ se obtiene mediante un vector $y_{i}\in \mathbb{R}^{n}$ tal que $y_{i}^{T}A=0$ y $b'_{i} = y_{i}^{T}b$. Por hipótesis esa cantidad es positiva.
+\end{itemize}
+
+\begin{lemm}[Lema de Farkas, versiones equivalentes]
+Sea $A \in \mathbb{R}^{m\times n}$, $b \in \mathbb{R}^{m}$. Se tiene:
+\begin{align*}
+   Ax\leq b \quad \text{es factible} &\Leftrightarrow \forall y \in \mathbb{R}^{m}:\left(y \geq 0, y^{T} A=0 \Longrightarrow y^{T} b \geq 0\right)\\
+   Ax\leq b, x \geq 0 \quad \text{es factible} &\Leftrightarrow \forall y \in \mathbb{R}^{m}:\left(y \geq 0, y^{T} A \geq 0 \Longrightarrow y^{T} b \geq 0\right)\\
+    Ax= b, x \geq 0 \quad \text{es factible} &\Leftrightarrow \forall y \in \mathbb{R}^{m}:\left(y^{T} A \geq 0 \Longrightarrow y^{T} b \geq 0 \right)
+\end{align*}
+
+\end{lemm}
+\textbf{Ejercicio:} Demostrar las equivalencias.
+
+\begin{lemm}[Lema de Farkas, interpretación gemétrica]
+Sea $Ax\leq b$ un sistema con $m$ restricciones y $C = \{\sum_{i\in[m]} \lambda_{i}a^{i}:\lambda \in \mathbb{R}_{+}^{m}\}$ el cono generado por las columnas de $A$. Entonces existe la dicotomía:
+\begin{enumerate}
+    \item $b \in C$
+    \item Existe un hiperplano $h=\{x \in R^{m}: y^{T}x=0\}$ para un cierto $y\in \mathbb{R}^{m}$, tal que $C$ y $b$ están en distintos lados del hiperplano.
+\end{enumerate}
+\end{lemm}
+
+\begin{lemm}[Lema de Farkas, versión general]
+Sea $Ax\leq b$ un sistema con $m$ restricciones y $J,K$ una partición del conjunto $[n]$. Luego:\\
+
+El sistema $Ax\leq b$ tiene solución si y solo si existe $x_{J} \in \mathbb{R}^{J}$ tal que:
+\begin{align*}
+    \forall y \in \mathbb{R}^{m}\left(y \geq 0, (y^{T} A)_{K}=0_{K}\right) \Longrightarrow y^{T} b \geq (y^{T} A)_{J}x_{J} \\
+\end{align*}
+\end{lemm}
+
+\textbf{Ejercicio:} Obtener una versión del Lema de Farkas del tipo $Ax\le b, \; Cx = d$ factible si y solo si otra implicancia se tiene.
+% \end{document}
